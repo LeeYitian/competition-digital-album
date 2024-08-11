@@ -1,21 +1,29 @@
-import { createBrowserRouter, redirect } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import Opening from "../views/opening/Opening";
+import Layout from "../layout/Layout";
+import Menu from "../views/menu/Menu";
 
 const router = createBrowserRouter([
   {
     path: "*",
-    loader: () => {
-      return redirect("/opening");
-    },
+    element: <Navigate to="/opening" replace />,
     // errorElement: <div>Error</div>,
   },
   {
     path: "/opening",
-    element: <Opening />,
+    element: (
+      <Layout>
+        <Opening />
+      </Layout>
+    ),
   },
   {
-    path: "/menu",
-    element: <div>menu</div>,
+    path: "/main",
+    element: (
+      <Layout>
+        <Menu />
+      </Layout>
+    ),
   },
   {
     path: "/ranking/:year",
