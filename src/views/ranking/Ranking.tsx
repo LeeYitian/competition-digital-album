@@ -22,7 +22,10 @@ const Ranking = () => {
             navigate(`/detail/${year}/${index + (page - 1) * 3 + 1}`)
           }
         >
-          <img src={photo.src} alt={`作品${index + 1}`} />
+          <img
+            src={`${import.meta.env.BASE_URL}${photo.src}`}
+            alt={`作品${index + 1}`}
+          />
           <PhotoTag
             $prize={index + (page - 1) * 3 + 1}
             $no={index}

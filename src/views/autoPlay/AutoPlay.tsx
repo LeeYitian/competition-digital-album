@@ -31,7 +31,10 @@ const AutoPlay = () => {
   return (
     <StyledBackground>
       <PhotoNote>
-        <img src={photos[playIndex].src} alt="作品" />
+        <img
+          src={`${import.meta.env.BASE_URL}${photos[playIndex].src}`}
+          alt="作品"
+        />
         <CloseButton onClick={() => navigate(`/ranking/${year}/1`)} />
         <PhotoTag $prize={playIndex + 1} />
       </PhotoNote>

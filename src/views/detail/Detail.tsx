@@ -57,11 +57,11 @@ const Detail = () => {
   return (
     <StyledBackground>
       <PhotoNote>
-        <img src={photo.src} alt="作品" />
+        <img src={`${import.meta.env.BASE_URL}${photo.src}`} alt="作品" />
         <PhotoTag $prize={parseInt(prize)} />
         {sideButton.map(({ icon, text, color }, index) => (
           <DetailSideButton key={text} $color={color} $index={index}>
-            <img src={`/assets/${icon}Icon.png`} />
+            <img src={`${import.meta.env.BASE_URL}assets/${icon}Icon.png`} />
             {showButtonText && <span>{text}</span>}
           </DetailSideButton>
         ))}
