@@ -1,18 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import { Icon } from "@iconify/react";
 import {
-  // MainMenuArrow,
-  // MainMenu,
   MainTitle,
   StyledBackground,
   YearButton,
   YearButtonGroup,
-  // MainMenuAction,
 } from "./Menu.style";
-import { useState } from "react";
-import MainMenu from "../../components/MainMenu/MainMenu";
+import PhotoPaths from "@/photos.json";
 
-const years = [111, 112];
+const years = Object.keys(PhotoPaths);
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -23,35 +18,12 @@ const Menu = () => {
       <YearButtonGroup>
         {years.map((year) => (
           <YearButton
+            key={year}
             $year={year}
-            onClick={() => navigate(`/ranking/${year}`)}
+            onClick={() => navigate(`/ranking/${year}/1`)}
           />
         ))}
       </YearButtonGroup>
-      {/* <MainMenu $open={openMenu}>
-        <MainMenuArrow onClick={() => setOpenMenu(!openMenu)}>
-          <Icon
-            icon="mingcute:play-fill"
-            color="#f6e9c7"
-            width="3vw"
-            rotate="180deg"
-          />
-        </MainMenuArrow>
-        <MainMenuAction>
-          {menuAction.map((action) => {
-            const active = selectAction === action.text;
-            return (
-              <div
-                {...(active && { className: "active" })}
-                onClick={() => handleMenuClick(action.text)}
-              >
-                {action.icon(active)}
-                {action.text}
-              </div>
-            );
-          })}
-        </MainMenuAction>
-      </MainMenu> */}
     </StyledBackground>
   );
 };

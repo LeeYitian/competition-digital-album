@@ -29,3 +29,24 @@ export const SideFlag = styled.div<{ $flip: boolean }>`
   background-size: cover;
   background-position: center;
 `;
+
+export const SideArrowButton = styled.div<{
+  $flip: boolean;
+  $disabled: boolean;
+}>`
+  position: absolute;
+  top: 50%;
+  ${({ $flip }) => ($flip ? "right: 1.5vw;" : "left: 1.5vw;")}
+  ${({ $flip }) => ($flip ? "transform: scale(-1);" : "")}
+  z-index: 2;
+  background-image: url("${import.meta.env.BASE_URL}assets/arrowButton.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 4vw;
+  aspect-ratio: 1/1;
+  cursor: pointer;
+  ${({ $disabled }) => ($disabled ? "filter: grayscale(1);" : "")}
+  &:hover {
+    transform: ${({ $flip }) => ($flip ? "scale(-1.1)" : "scale(1.1)")};
+  }
+`;

@@ -30,7 +30,7 @@ export const YearButtonGroup = styled.div`
   padding: 2vw 0;
 `;
 
-export const YearButton = styled.div<{ $year: number }>`
+export const YearButton = styled.div<{ $year: string }>`
   background-image: ${({ $year }) =>
     `url("${import.meta.env.BASE_URL}assets/${$year}year.png")`};
   background-size: contain;

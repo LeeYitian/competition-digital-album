@@ -1,7 +1,8 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import Opening from "../views/opening/Opening";
-import Layout from "../layout/Layout";
-import Menu from "../views/menu/Menu";
+import Opening from "@/views/opening/Opening";
+import Layout from "@/layout/Layout";
+import Menu from "@/views/menu/Menu";
+import Ranking from "@/views/ranking/Ranking";
 
 const router = createBrowserRouter([
   {
@@ -26,8 +27,12 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/ranking/:year",
-    element: <div>year</div>,
+    path: "/ranking/:year/:page",
+    element: (
+      <Layout>
+        <Ranking />
+      </Layout>
+    ),
   },
   {
     path: "/detail/:photo",

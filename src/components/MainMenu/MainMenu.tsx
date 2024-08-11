@@ -1,7 +1,7 @@
-import { useNavigate } from "react-router-dom";
-import { MenuAction, Menu, MenuArrow } from "./MainMenu.style";
+import { useLocation, useNavigate } from "react-router-dom";
+import { MenuAction, Menu, MenuArrow, ActionButton } from "./MainMenu.style";
 import { Icon } from "@iconify/react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 
 type TMainMenuProps = {
   openMenu: boolean;
@@ -18,6 +18,7 @@ const menuAction = [
       />
     ),
     text: "自動播放",
+    clickable: ["ranking"],
   },
   {
     icon: (active: boolean) => (
@@ -30,6 +31,7 @@ const menuAction = [
       />
     ),
     text: "上一頁",
+    clickable: ["detail"],
   },
   {
     icon: (active: boolean) => (
@@ -40,6 +42,7 @@ const menuAction = [
       />
     ),
     text: "音樂設定",
+    clickable: ["main", "detail", "ranking", "autoPlay"],
   },
   {
     icon: (active: boolean) => (
@@ -50,15 +53,31 @@ const menuAction = [
       />
     ),
     text: "回首頁",
+    clickable: ["detail", "ranking"],
   },
 ];
 
 const MainMenu = ({ openMenu, setOpenMenu }: TMainMenuProps) => {
   const navigate = useNavigate();
-  const [selectAction, setSelectAction] = useState("");
+  const location = useLocation();
+  const [showButtonText, setShowButtonText] = useState(true);
+
+  useEffect(() => {
+    const showText = () => {
+      if (window.innerWidth < 750) {
+        setShowButtonText(false);
+      } else {
+        setShowButtonText(true);
+      }
+    };
+    showText();
+    window.addEventListener("resize", showText);
+    return () => {
+      window.removeEventListener("resize", showText);
+    };
+  });
 
   const handleMenuClick = (text: string) => {
-    setSelectAction(text);
     switch (text) {
       case "自動播放":
         navigate("/autoPlay");
@@ -87,16 +106,28 @@ const MainMenu = ({ openMenu, setOpenMenu }: TMainMenuProps) => {
         />
       </MenuArrow>
       <MenuAction>
-        {menuAction.map((action) => {
-          const active = selectAction === action.text;
+        {menuAction.map((action, index) => {
+          const clickable = action.clickable.includes(
+            location.pathname.split("/")[1]
+          );
+
           return (
-            <div
-              {...(active && { className: "active" })}
-              onClick={() => handleMenuClick(action.text)}
-            >
-              {action.icon(active)}
-              {action.text}
-            </div>
+            <Fragment key={action.text}>
+              <ActionButton
+                $clickable={clickable}
+                onClick={() => {
+                  if (clickable) handleMenuClick(action.text);
+                }}
+              >
+                {action.icon(clickable)}
+                {showButtonText && action.text}
+              </ActionButton>
+              {index !== menuAction.length - 1 && (
+                <div
+                  style={{ width: "2px", height: "75%", background: "#07a4e9" }}
+                />
+              )}
+            </Fragment>
           );
         })}
       </MenuAction>
