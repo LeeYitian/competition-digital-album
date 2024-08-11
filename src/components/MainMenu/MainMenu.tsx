@@ -6,6 +6,7 @@ import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 type TMainMenuProps = {
   openMenu: boolean;
   setOpenMenu: Dispatch<SetStateAction<boolean>>;
+  year: string;
 };
 
 const menuAction = [
@@ -57,7 +58,7 @@ const menuAction = [
   },
 ];
 
-const MainMenu = ({ openMenu, setOpenMenu }: TMainMenuProps) => {
+const MainMenu = ({ openMenu, setOpenMenu, year }: TMainMenuProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showButtonText, setShowButtonText] = useState(true);
@@ -80,7 +81,7 @@ const MainMenu = ({ openMenu, setOpenMenu }: TMainMenuProps) => {
   const handleMenuClick = (text: string) => {
     switch (text) {
       case "自動播放":
-        navigate("/autoPlay");
+        navigate(`/autoPlay/${year}`);
         break;
       case "上一頁":
         navigate(-1);

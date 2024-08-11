@@ -1,22 +1,27 @@
-import { useParams } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { PhotoFrame, PhotoTag, StyledBackground } from "./Ranking.style";
-import PhotoPaths from "@/photos.json";
+
+type TPhoto = {
+  title: string;
+  src: string;
+  author: string;
+  description: string;
+};
 
 const Ranking = () => {
+  const navigate = useNavigate();
+  const groupedPhotos: TPhoto[] = useLoaderData();
   const { year, page } = useParams();
-
-  const pageSize = 3;
-  const photos = Object.values(PhotoPaths[year as keyof typeof PhotoPaths]);
-
-  const groupedPhotos = [];
-  for (let i = 0; i < photos.length; i += pageSize) {
-    groupedPhotos.push(photos.slice(i, i + pageSize));
-  }
 
   return (
     <StyledBackground>
-      {groupedPhotos[parseInt(page) - 1].map((photo, index) => (
-        <PhotoFrame key={photo.title}>
+      {groupedPhotos.map((photo, index) => (
+        <PhotoFrame
+          key={photo.title}
+          onClick={() =>
+            navigate(`/detail/${year}/${index + (page - 1) * 3 + 1}`)
+          }
+        >
           <img src={photo.src} alt={`作品${index + 1}`} />
           <PhotoTag
             $prize={index + (page - 1) * 3 + 1}

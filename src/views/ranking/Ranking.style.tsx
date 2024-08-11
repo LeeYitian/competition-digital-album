@@ -15,7 +15,7 @@ export const StyledBackground = styled.div`
 export const PhotoFrame = styled.div`
   position: absolute;
   background: #f3f5f4;
-  width: 33vw;
+  width: 33%;
   aspect-ratio: 660/460;
   align-self: center;
   padding: 1vw;

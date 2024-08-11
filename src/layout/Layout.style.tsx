@@ -4,6 +4,7 @@ export const AppContainer = styled.div`
   position: relative;
   width: var(--width);
   height: var(--height);
+  // width: 100%;
   aspect-ratio: 1920/1080;
   overflow: hidden;
   & > img {
@@ -49,4 +50,17 @@ export const SideArrowButton = styled.div<{
   &:hover {
     transform: ${({ $flip }) => ($flip ? "scale(-1.1)" : "scale(1.1)")};
   }
+`;
+
+export const TopFlag = styled.div`
+  position: absolute;
+  top: 0;
+  left: 35%;
+  z-index: 2;
+  width: 30vw;
+  height: auto;
+  aspect-ratio: 538/117;
+  background-image: url("${import.meta.env.BASE_URL}assets/topFlag.png");
+  background-size: cover;
+  background-position: center;
 `;

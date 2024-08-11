@@ -1,8 +1,13 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { AppContainer, SideArrowButton, SideFlag } from "./Layout.style";
+import {
+  AppContainer,
+  SideArrowButton,
+  SideFlag,
+  TopFlag,
+} from "./Layout.style";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import MainMenu from "@/components/MainMenu/MainMenu";
-import PhotoPaths from "@/photos.json";
+import PhotoConstants from "@/photos.json";
 
 const showMainMenu = (pathname: string) => {
   return pathname !== "/opening";
@@ -15,13 +20,14 @@ const showSideArrow = (pathname: string) => {
 const Layout = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
   const { pathname } = location;
-  const { year, page } = useParams();
+  const { year = "112", page = "1", prize = "1" } = useParams();
   const navigate = useNavigate();
   const [openMenu, setOpenMenu] = useState(false);
 
   const pageSize = 3;
   const totalPages = Math.ceil(
-    Object.values(PhotoPaths[year as keyof typeof PhotoPaths]).length / pageSize
+    Object.values(PhotoConstants[year as keyof typeof PhotoConstants]).length /
+      pageSize
   );
 
   useEffect(() => {
@@ -74,14 +80,33 @@ const Layout = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const flagDecoration = (pathname: string) => {
+    const path = pathname.split("/")[1];
+    switch (path) {
+      case "detail":
+        return <TopFlag />;
+      case "autoPlay":
+        return <SideFlag $flip={false} />;
+      case "opening":
+      case "main":
+      case "ranking":
+      default:
+        return (
+          <>
+            <SideFlag $flip={false} />
+            <SideFlag $flip={true} />
+          </>
+        );
+    }
+  };
+
   return (
     <AppContainer ref={container}>
       <img
         src={`${import.meta.env.BASE_URL}assets/logo.png`}
         alt="新北市政府全民國防攝影競賽"
       />
-      <SideFlag $flip={false} />
-      <SideFlag $flip={true} />
+      {flagDecoration(pathname)}
       {showSideArrow(pathname) && (
         <SideArrowButton
           $flip={false}
@@ -98,7 +123,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       )}
       {children}
       {showMainMenu(pathname) && (
-        <MainMenu openMenu={openMenu} setOpenMenu={setOpenMenu} />
+        <MainMenu openMenu={openMenu} setOpenMenu={setOpenMenu} year={year} />
       )}
     </AppContainer>
   );

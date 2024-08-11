@@ -5,9 +5,9 @@ import {
   YearButton,
   YearButtonGroup,
 } from "./Menu.style";
-import PhotoPaths from "@/photos.json";
+import PhotoConstants from "@/photos.json";
 
-const years = Object.keys(PhotoPaths);
+const years = Object.keys(PhotoConstants);
 
 const Menu = () => {
   const navigate = useNavigate();
