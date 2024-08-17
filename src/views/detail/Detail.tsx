@@ -41,7 +41,7 @@ const Detail = () => {
 
   useEffect(() => {
     const showText = () => {
-      if (window.innerWidth < 750) {
+      if (window.innerWidth < 750 || window.innerHeight < 400) {
         setShowButtonText(false);
       } else {
         setShowButtonText(true);

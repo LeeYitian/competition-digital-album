@@ -16,13 +16,13 @@ export const StyledBackground = styled.div`
 
 export const CloseButton = styled.div`
   position: absolute;
-  top: 2vw;
-  right: -2vw;
+  top: calc(2 * var(--vw));
+  right: calc(-2 * var(--vw));
   background-image: url("${import.meta.env.BASE_URL}assets/closeButton.png");
   background-size: contain;
   background-repeat: no-repeat;
-  width: 4vw;
-  height: 4vw;
+  width: calc(4 * var(--vw));
+  height: calc(4 * var(--vw));
   cursor: pointer;
   &:hover {
     scale: 1.1;
@@ -31,50 +31,51 @@ export const CloseButton = styled.div`
 
 export const TitleBanner = styled.div`
   position: absolute;
-  bottom: 3vw;
-  left: 0vw;
+  bottom: calc(3 * var(--vw));
+  left: calc(0 * var(--vw));
   background-image: url("${import.meta.env.BASE_URL}assets/autoPlayTitle.png");
   background-size: contain;
   background-repeat: no-repeat;
-  height: 7vw;
+  height: calc(7 * var(--vw));
   aspect-ratio: 718/126;
   display: flex;
   align-items: center;
-  padding-left: 1vw;
+  padding-left: calc(1 * var(--vw));
   & > div {
     color: #1b4a66;
-    font-size: 3vw;
+    font-size: calc(3 * var(--vw));
   }
 `;
 
 export const AuthorBanner = styled.div`
   position: absolute;
-  bottom: 10vw;
-  left: 0vw;
+  bottom: calc(10 * var(--vw));
+  left: calc(0 * var(--vw));
   background-image: url("${import.meta.env.BASE_URL}assets/autoPlayAuthor.png");
   background-size: contain;
   background-repeat: no-repeat;
-  height: 5vw;
+  height: calc(5 * var(--vw));
   aspect-ratio: 718/126;
   display: flex;
   align-items: center;
-  padding-left: 1vw;
+  padding-left: calc(1 * var(--vw));
   & > div {
     color: #1b4a66;
-    font-size: 2vw;
+    font-size: calc(2 * var(--vw));
     rotate: 2deg;
   }
 `;
 
 export const PhotoTag = styled.div<{ $prize: number }>`
   position: absolute;
-  top: 11vw;
-  left: -9vw;
+  top: calc(11 * var(--vw));
+  left: calc(-9 * var(--vw));
   background-image: url("${import.meta.env.BASE_URL}assets/prize-${({
     $prize,
   }) => ($prize > 3 ? 3 : $prize)}.png");
   background-size: contain;
   background-repeat: no-repeat;
-  width: ${({ $prize }) => ($prize > 1 ? "16vw" : "21vw")};
+  width: ${({ $prize }) =>
+    $prize > 1 ? "calc(16*var(--vw))" : "calc(21*var(--vw))"};
   aspect-ratio: 2/1;
 `;

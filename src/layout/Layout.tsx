@@ -46,6 +46,11 @@ const Layout = ({ children }: { children: ReactNode }) => {
         container.current.style.setProperty("--height", `100%`);
         container.current.style.setProperty("--width", `auto`);
       }
+
+      container.current.style.setProperty(
+        "--vw",
+        `${container.current.clientWidth / 100}px`
+      );
     };
     setSize();
     window.addEventListener("resize", setSize);

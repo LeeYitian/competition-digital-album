@@ -14,7 +14,7 @@ const menuAction = [
     icon: (active: boolean) => (
       <Icon
         icon="mingcute:play-fill"
-        width="2.5vw"
+        width="2em"
         color={active ? "#07a4e9" : "#bac0be"}
       />
     ),
@@ -27,7 +27,7 @@ const menuAction = [
         icon="f7:return"
         rotate="90deg"
         flip="horizontal"
-        width="2.5vw"
+        width="2em"
         color={active ? "#07a4e9" : "#bac0be"}
       />
     ),
@@ -38,7 +38,7 @@ const menuAction = [
     icon: (active: boolean) => (
       <Icon
         icon="subway:music"
-        width="2.5vw"
+        width="2em"
         color={active ? "#07a4e9" : "#bac0be"}
       />
     ),
@@ -49,7 +49,7 @@ const menuAction = [
     icon: (active: boolean) => (
       <Icon
         icon="ant-design:home-filled"
-        width="2.5vw"
+        width="2em"
         color={active ? "#07a4e9" : "#bac0be"}
       />
     ),
@@ -65,7 +65,7 @@ const MainMenu = ({ openMenu, setOpenMenu, year }: TMainMenuProps) => {
 
   useEffect(() => {
     const showText = () => {
-      if (window.innerWidth < 750) {
+      if (window.innerWidth < 750 || window.innerHeight < 400) {
         setShowButtonText(false);
       } else {
         setShowButtonText(true);
@@ -102,7 +102,7 @@ const MainMenu = ({ openMenu, setOpenMenu, year }: TMainMenuProps) => {
         <Icon
           icon="mingcute:play-fill"
           color="#f6e9c7"
-          width="3vw"
+          width="2em"
           rotate="180deg"
         />
       </MenuArrow>

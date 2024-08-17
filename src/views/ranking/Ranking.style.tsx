@@ -18,7 +18,7 @@ export const PhotoFrame = styled.div`
   width: 33%;
   aspect-ratio: 660/460;
   align-self: center;
-  padding: 1vw;
+  padding: calc(1 * var(--vw));
   display: flex;
   align-items: center;
   box-shadow: 0rem 0rem 0.5rem #7b4135;
@@ -33,20 +33,20 @@ export const PhotoFrame = styled.div`
     object-position: center;
   }
   &:first-child {
-    top: 10vw;
-    left: 10vw;
+    top: calc(10 * var(--vw));
+    left: calc(10 * var(--vw));
     z-index: 3;
     transform: rotate(2deg);
   }
   &:nth-child(2) {
-    bottom: 3vw;
-    right: 30vw;
+    bottom: calc(3 * var(--vw));
+    right: calc(30 * var(--vw));
     z-index: 2;
     transform: rotate(5deg);
   }
   &:last-child {
-    top: 10vw;
-    right: 10vw;
+    top: calc(10 * var(--vw));
+    right: calc(10 * var(--vw));
     z-index: 1;
     transform: rotate(-4deg);
   }
@@ -66,11 +66,11 @@ export const PhotoTag = styled.div<{
   width: ${({ $prize }) => {
     switch ($prize) {
       case 1:
-        return "20vw";
+        return "calc(20*var(--vw))";
       case 2:
       case 3:
       default:
-        return "15vw";
+        return "calc(15*var(--vw))";
     }
   }};
   aspect-ratio: 2/1;
@@ -79,23 +79,23 @@ export const PhotoTag = styled.div<{
     switch ($no) {
       case 0:
         if ($page === "1") {
-          return "-7vw";
+          return "calc(-7*var(--vw))";
         }
-        return "-3vw";
+        return "calc(-3*var(--vw))";
       case 1:
-        return "5vw";
+        return "calc(5*var(--vw))";
       case 2:
-        return "0vw";
+        return "calc(0*var(--vw))";
     }
   }};
   right: ${({ $no }) => {
     switch ($no) {
       case 0:
-        return "-5vw";
+        return "calc(-5*var(--vw))";
       case 1:
-        return "-14vw";
+        return "calc(-14*var(--vw))";
       case 2:
-        return "-5vw";
+        return "calc(-5*var(--vw))";
     }
   }};
 `;

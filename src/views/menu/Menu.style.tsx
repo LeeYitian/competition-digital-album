@@ -18,7 +18,7 @@ export const MainTitle = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  width: 30vw;
+  width: calc(30 * var(--vw));
   aspect-ratio: 910/270;
 `;
 
@@ -27,7 +27,7 @@ export const YearButtonGroup = styled.div`
   justify-content: space-around;
   width: 80%;
   aspect-ratio: 2/0.5;
-  padding: 2vw 0;
+  padding: calc(2 * var(--vw)) 0;
 `;
 
 export const YearButton = styled.div<{ $year: string }>`

@@ -20,7 +20,7 @@ export const VideoContainer = styled.div`
   height: 78%;
   background-color: #986e56;
   box-shadow: inset 0.5vw 0.5vw #7b4135, inset -0.5vw 0 #7b4135;
-  border-radius: 1vw;
+  border-radius: calc(1 * var(--vw));
 `;
 
 export const SkipButton = styled.div`
@@ -28,12 +28,12 @@ export const SkipButton = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   box-shadow: 0rem 0rem 0.5rem #7b4135;
-  width: 8vw;
+  width: calc(8 * var(--vw));
   height: auto;
   aspect-ratio: 160/70;
   position: absolute;
-  bottom: 1.5vw;
-  right: 1.5vw;
+  bottom: calc(1.5 * var(--vw));
+  right: calc(1.5 * var(--vw));
   cursor: pointer;
   &:hover {
     transform: scale(1.1);

@@ -23,7 +23,7 @@ export const PhotoNote = styled.div`
   background-position: center;
   width: 70%;
   aspect-ratio: 1373/945;
-  padding: 6vw;
+  padding: calc(6 * var(--vw));
   & > img {
     width: 100%;
     object-fit: contain;
@@ -32,14 +32,16 @@ export const PhotoNote = styled.div`
 
 export const PhotoTag = styled.div<{ $prize: number }>`
   position: absolute;
-  top: ${({ $prize }) => ($prize > 1 ? "0vw" : "-2vw")};
-  right: -10vw;
+  top: ${({ $prize }) =>
+    $prize > 1 ? "calc(0*var(--vw))" : "calc(-2*var(--vw))"};
+  right: calc(-10 * var(--vw));
   background-image: url("${import.meta.env.BASE_URL}assets/prize-${({
     $prize,
   }) => ($prize > 3 ? 3 : $prize)}.png");
   background-size: contain;
   background-repeat: no-repeat;
-  width: ${({ $prize }) => ($prize > 1 ? "15vw" : "20vw")};
+  width: ${({ $prize }) =>
+    $prize > 1 ? "calc(15*var(--vw))" : "calc(20*var(--vw))"};
   aspect-ratio: 2/1;
 `;
 
@@ -52,11 +54,11 @@ export const Description = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  width: 25vw;
+  width: calc(25 * var(--vw));
   aspect-ratio: 450/411;
-  padding: 2vw;
+  padding: calc(2 * var(--vw));
   & > div {
-    font-size: 1.8vw;
+    font-size: calc(1.8 * var(--vw));
     width: 100%;
     height: 100%;
     rotate: -9deg;
@@ -65,38 +67,38 @@ export const Description = styled.div`
 
 export const TitleBanner = styled.div`
   position: absolute;
-  top: 5vw;
-  left: 0vw;
+  top: calc(5 * var(--vw));
+  left: calc(0 * var(--vw));
   background-image: url("${import.meta.env.BASE_URL}assets/detailTitle.png");
   background-size: contain;
   background-repeat: no-repeat;
-  height: 8vw;
+  height: calc(8 * var(--vw));
   aspect-ratio: 718/126;
   display: flex;
   align-items: center;
-  padding-left: 1vw;
+  padding-left: calc(1 * var(--vw));
   & > div {
     color: #1b4a66;
-    font-size: 2.8vw;
+    font-size: calc(2.8 * var(--vw));
     rotate: -4deg;
   }
 `;
 
 export const AuthorBanner = styled.div`
   position: absolute;
-  top: 11vw;
-  left: 0vw;
+  top: calc(11 * var(--vw));
+  left: calc(0 * var(--vw));
   background-image: url("${import.meta.env.BASE_URL}assets/detailAuthor.png");
   background-size: contain;
   background-repeat: no-repeat;
-  height: 5vw;
+  height: calc(5 * var(--vw));
   aspect-ratio: 718/126;
   display: flex;
   align-items: center;
-  padding-left: 1vw;
+  padding-left: calc(1 * var(--vw));
   & > div {
     color: #1b4a66;
-    font-size: 1.8vw;
+    font-size: calc(1.8 * var(--vw));
     rotate: -4deg;
   }
 `;
@@ -120,22 +122,22 @@ export const DetailSideButton = styled.div<{ $color: string; $index: number }>`
   right: ${({ $index }) => {
     switch ($index) {
       case 0:
-        return "-4.5vw";
+        return "calc(-4.5*var(--vw))";
       case 1:
-        return "-4.2vw";
+        return "calc(-4.2*var(--vw))";
       case 2:
-        return "-3.9vw";
+        return "calc(-3.9*var(--vw))";
       case 3:
-        return "-3.5vw";
+        return "calc(-3.5*var(--vw))";
       default:
-        return "-4.5vw";
+        return "calc(-4.5*var(--vw))";
     }
   }};
   background: ${({ $color }) => $color};
-  width: 5vw;
+  width: calc(5 * var(--vw));
   aspect-ratio: 1/1.5;
-  padding: 0.5vw;
-  border-radius: 0 1vw 1vw 0;
+  padding: calc(0.5 * var(--vw));
+  border-radius: 0 calc(1 * var(--vw)) calc(1 * var(--vw)) 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -143,13 +145,13 @@ export const DetailSideButton = styled.div<{ $color: string; $index: number }>`
   rotate: 2deg;
   cursor: pointer;
   & > img {
-    height: 3vw;
+    height: calc(3 * var(--vw));
     aspect-ratio: 1/1;
   }
   & > span {
     width: 100%;
-    font-size: 1.6vw;
-    padding-left: 0.5vw;
+    font-size: calc(1.6 * var(--vw));
+    padding-left: calc(0.5 * var(--vw));
     color: ${({ $index }) => ($index === 3 ? "black" : "white")};
   }
 `;
