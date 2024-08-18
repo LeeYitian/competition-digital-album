@@ -32,7 +32,11 @@ const AutoPlay = () => {
         loop
         preload="auto"
       />
-      <CloseButton onClick={() => navigate(`/ranking/${year}/1`)} />
+      <CloseButton
+        $position="top: calc(4 * var(--vw));
+  right: calc(12 * var(--vw));"
+        onClick={() => navigate(`/ranking/${year}/1`)}
+      />
     </StyledBackground>
   );
 };

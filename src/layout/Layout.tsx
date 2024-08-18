@@ -14,6 +14,8 @@ import {
   useState,
 } from "react";
 import MainMenu from "@/components/MainMenu/MainMenu";
+import MusicDialog from "@/components/MusicDialog/MusicDialog";
+import MusicList from "@/music.json";
 
 const showMainMenu = (pathname: string) => {
   return pathname !== "/opening";
@@ -30,6 +32,15 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const path = pathname.split("/")[1];
   const { totalPages, currentPage, year } = useLoaderData();
   const [openMenu, setOpenMenu] = useState(false);
+  const [selectedMusic, setSelectedMusic] = useState(MusicList[0].src);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.src = selectedMusic;
+      audioRef.current.play();
+    }
+  }, [selectedMusic]);
+  const [openMusicDialog, setOpenMusicDialog] = useState(false);
 
   useEffect(() => {
     setOpenMenu(false);
@@ -155,8 +166,22 @@ const Layout = ({ children }: { children: ReactNode }) => {
       )}
       {children}
       {showMainMenu(pathname) && (
-        <MainMenu openMenu={openMenu} setOpenMenu={setOpenMenu} year={year} />
+        <MainMenu
+          openMenu={openMenu}
+          setOpenMenu={setOpenMenu}
+          setOpenMusicDialog={setOpenMusicDialog}
+          year={year}
+        />
       )}
+      {openMusicDialog && (
+        <MusicDialog
+          setOpenMusicDialog={setOpenMusicDialog}
+          musicList={MusicList}
+          selectedMusic={selectedMusic}
+          setSelectedMusic={setSelectedMusic}
+        />
+      )}
+      <audio ref={audioRef} loop autoPlay />
     </AppContainer>
   );
 };

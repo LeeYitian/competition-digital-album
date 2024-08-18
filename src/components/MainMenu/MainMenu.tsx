@@ -6,6 +6,7 @@ import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 type TMainMenuProps = {
   openMenu: boolean;
   setOpenMenu: Dispatch<SetStateAction<boolean>>;
+  setOpenMusicDialog: Dispatch<SetStateAction<boolean>>;
   year: string;
 };
 
@@ -58,7 +59,12 @@ const menuAction = [
   },
 ];
 
-const MainMenu = ({ openMenu, setOpenMenu, year }: TMainMenuProps) => {
+const MainMenu = ({
+  openMenu,
+  setOpenMenu,
+  year,
+  setOpenMusicDialog,
+}: TMainMenuProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showButtonText, setShowButtonText] = useState(true);
@@ -89,7 +95,7 @@ const MainMenu = ({ openMenu, setOpenMenu, year }: TMainMenuProps) => {
         break;
       }
       case "音樂設定":
-        alert("開啟音樂設定彈窗");
+        setOpenMusicDialog(true);
         break;
       case "回首頁":
         navigate("/main");
