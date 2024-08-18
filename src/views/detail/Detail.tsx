@@ -1,5 +1,4 @@
-import { useLoaderData, useParams } from "react-router-dom";
-import PhotoConstant from "@/photos.json";
+import { useLoaderData } from "react-router-dom";
 import {
   AuthorBanner,
   Description,
@@ -35,8 +34,7 @@ const sideButton = [
 ];
 
 const Detail = () => {
-  const { prize } = useParams();
-  const photo = useLoaderData();
+  const { data: photo } = useLoaderData();
   const [showButtonText, setShowButtonText] = useState(true);
 
   useEffect(() => {
@@ -58,7 +56,7 @@ const Detail = () => {
     <StyledBackground>
       <PhotoNote>
         <img src={`${import.meta.env.BASE_URL}${photo.src}`} alt="作品" />
-        <PhotoTag $prize={parseInt(prize)} />
+        <PhotoTag $prize={photo.prize} />
         {sideButton.map(({ icon, text, color }, index) => (
           <DetailSideButton key={text} $color={color} $index={index}>
             <img src={`${import.meta.env.BASE_URL}assets/${icon}Icon.png`} />
@@ -66,15 +64,9 @@ const Detail = () => {
           </DetailSideButton>
         ))}
       </PhotoNote>
-      <Description>
-        <div>{photo.description}</div>
-      </Description>
-      <TitleBanner>
-        <div>{photo.title}</div>
-      </TitleBanner>
-      <AuthorBanner>
-        <div>{photo.author}</div>
-      </AuthorBanner>
+      <Description $url={photo.description} />
+      <TitleBanner $url={photo.title} />
+      <AuthorBanner $url={photo.author} />
     </StyledBackground>
   );
 };

@@ -22,7 +22,7 @@ export const SideFlag = styled.div<{ $flip: boolean }>`
   top: 0;
   ${({ $flip }) => ($flip ? "right: 0;" : "left: 0;")}
   ${({ $flip }) => ($flip ? "transform: scaleX(-1);" : "")}
-  z-index: 2;
+  z-index: 1;
   width: calc(30 * var(--vw));
   height: auto;
   aspect-ratio: 520/230;

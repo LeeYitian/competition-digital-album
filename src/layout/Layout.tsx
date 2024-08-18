@@ -1,13 +1,26 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  useLoaderData,
+  useLocation,
+  useNavigate,
+  useNavigation,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import {
   AppContainer,
   SideArrowButton,
   SideFlag,
   TopFlag,
 } from "./Layout.style";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import MainMenu from "@/components/MainMenu/MainMenu";
-import PhotoConstants from "@/photos.json";
 
 const showMainMenu = (pathname: string) => {
   return pathname !== "/opening";
@@ -19,16 +32,11 @@ const showSideArrow = (pathname: string) => {
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
-  const { pathname } = location;
-  const { year = "112", page = "1", prize = "1" } = useParams();
   const navigate = useNavigate();
+  const { pathname } = location;
+  const path = pathname.split("/")[1];
+  const { totalPages, currentPage, year } = useLoaderData();
   const [openMenu, setOpenMenu] = useState(false);
-
-  const pageSize = 3;
-  const totalPages = Math.ceil(
-    Object.values(PhotoConstants[year as keyof typeof PhotoConstants]).length /
-      pageSize
-  );
 
   useEffect(() => {
     setOpenMenu(false);
@@ -59,39 +67,65 @@ const Layout = ({ children }: { children: ReactNode }) => {
     };
   }, [container]);
 
-  const handlePrevClick = (pathname: string) => {
-    const path = pathname.split("/")[1];
-    const targetPage = page - 1 > 1 ? page - 1 : 1;
+  const handlePrevClick = useCallback(() => {
+    const targetPage = currentPage - 1 > 1 ? currentPage - 1 : 1;
 
     switch (path) {
       case "ranking":
         navigate(`/ranking/${year}/${targetPage}`);
         break;
+      case "detail":
+        navigate(`/detail/${year}/${targetPage}`);
+        break;
+      case "autoPlay": {
+        const videoEl = document.getElementById("autoPlay") as HTMLVideoElement;
+        const currentTime = videoEl.currentTime;
+        const currentPrize =
+          Math.ceil(currentTime / 4) > 0 ? Math.ceil(currentTime / 4) : 1;
+        const targetPrize = currentPrize - 1 > 0 ? currentPrize - 1 : 1;
+        const targetTime = (targetPrize - 1) * 4;
+        videoEl.currentTime = targetTime;
+        break;
+      }
+      // navigate(`/autoPlay/${year}?currentTime=${targetTime}`);
       default:
         return;
     }
-  };
+  }, [path, currentPage, year, navigate]);
 
-  const handleNextClick = (pathname: string) => {
-    const path = pathname.split("/")[1];
-    const targetPage = page + 1 < totalPages ? page + 1 : totalPages;
+  const handleNextClick = useCallback(() => {
+    const targetPage =
+      currentPage + 1 < totalPages ? currentPage + 1 : totalPages;
 
     switch (path) {
       case "ranking":
         navigate(`/ranking/${year}/${targetPage}`);
         break;
+      case "detail":
+        navigate(`/detail/${year}/${targetPage}`);
+        break;
+      case "autoPlay": {
+        const videoEl = document.getElementById("autoPlay") as HTMLVideoElement;
+        const currentTime = videoEl.currentTime;
+        const currentPrize =
+          Math.ceil(currentTime / 4) > 0 ? Math.ceil(currentTime / 4) : 1;
+        const targetPrize = currentPrize + 1 < 18 ? currentPrize + 1 : 18;
+        const targetTime = (targetPrize - 1) * 4;
+        videoEl.currentTime = targetTime;
+        break;
+      }
+      // navigate(`/autoPlay/${year}?currentTime=${targetTime}`);
       default:
         return;
     }
-  };
+  }, [path, currentPage, year, navigate, totalPages]);
 
-  const flagDecoration = (pathname: string) => {
-    const path = pathname.split("/")[1];
+  const flagDecoration = useMemo(() => {
     switch (path) {
       case "detail":
         return <TopFlag />;
       case "autoPlay":
-        return <SideFlag $flip={false} />;
+        return null;
       case "opening":
       case "main":
       case "ranking":
@@ -103,27 +137,29 @@ const Layout = ({ children }: { children: ReactNode }) => {
           </>
         );
     }
-  };
+  }, [path]);
 
   return (
     <AppContainer ref={container}>
-      <img
-        src={`${import.meta.env.BASE_URL}assets/logo.png`}
-        alt="新北市政府全民國防攝影競賽"
-      />
-      {flagDecoration(pathname)}
+      {!pathname.includes("autoPlay") && (
+        <img
+          src={`${import.meta.env.BASE_URL}assets/logo.png`}
+          alt="新北市政府全民國防攝影競賽"
+        />
+      )}
+      {flagDecoration}
       {showSideArrow(pathname) && (
         <SideArrowButton
           $flip={false}
-          $disabled={parseInt(page) === 1}
-          onClick={() => handlePrevClick(pathname)}
+          $disabled={currentPage === 1}
+          onClick={() => handlePrevClick()}
         />
       )}
       {showSideArrow(pathname) && (
         <SideArrowButton
           $flip={true}
-          $disabled={parseInt(page) === totalPages}
-          onClick={() => handleNextClick(pathname)}
+          $disabled={currentPage === totalPages}
+          onClick={() => handleNextClick()}
         />
       )}
       {children}

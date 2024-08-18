@@ -6,11 +6,13 @@ type TPhoto = {
   src: string;
   author: string;
   description: string;
+  prize: number;
 };
 
 const Ranking = () => {
   const navigate = useNavigate();
-  const groupedPhotos: TPhoto[] = useLoaderData();
+  const { data } = useLoaderData();
+  const groupedPhotos: TPhoto[] = data;
   const { year, page } = useParams();
 
   return (
@@ -18,19 +20,13 @@ const Ranking = () => {
       {groupedPhotos.map((photo, index) => (
         <PhotoFrame
           key={photo.title}
-          onClick={() =>
-            navigate(`/detail/${year}/${index + (page - 1) * 3 + 1}`)
-          }
+          onClick={() => navigate(`/detail/${year}/${photo.prize}`)}
         >
           <img
             src={`${import.meta.env.BASE_URL}${photo.src}`}
             alt={`作品${index + 1}`}
           />
-          <PhotoTag
-            $prize={index + (page - 1) * 3 + 1}
-            $no={index}
-            $page={page}
-          />
+          <PhotoTag $prize={photo.prize} $no={index} $page={page} />
         </PhotoFrame>
       ))}
     </StyledBackground>

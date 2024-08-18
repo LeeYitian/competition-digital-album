@@ -83,9 +83,11 @@ const MainMenu = ({ openMenu, setOpenMenu, year }: TMainMenuProps) => {
       case "自動播放":
         navigate(`/autoPlay/${year}`);
         break;
-      case "上一頁":
-        navigate(-1);
+      case "上一頁": {
+        const page = Math.ceil(parseInt(location.pathname.split("/")[3]) / 3);
+        navigate(`/ranking/${year}/${page}`);
         break;
+      }
       case "音樂設定":
         alert("開啟音樂設定彈窗");
         break;
