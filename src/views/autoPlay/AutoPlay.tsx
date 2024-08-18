@@ -1,40 +1,12 @@
-import { PhotoNote } from "@/views/detail/Detail.style";
-import {
-  AuthorBanner,
-  CloseButton,
-  PhotoTag,
-  StyledBackground,
-  TitleBanner,
-} from "./AutoPlay.style";
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { CloseButton, StyledBackground } from "./AutoPlay.style";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useEffect, useRef } from "react";
 
 const AutoPlay = () => {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
-  // const currentTime = searchParams.get("currentTime");
+  const [, setSearchParams] = useSearchParams();
   const { year } = useParams();
   const videoRef = useRef<HTMLVideoElement>(null);
-  // const photos = useLoaderData();
-  // const [playIndex, setPlayIndex] = useState(0);
-
-  // useEffect(() => {
-  //   const autoPlay = () => {
-  //     setPlayIndex((prev) => {
-  //       if (prev === photos.length) return 0;
-  //       return prev + 1;
-  //     });
-  //   };
-
-  //   const timeOut = setTimeout(autoPlay, 5000);
-
-  //   return () => clearTimeout(timeOut);
-  // }, [photos]);
 
   useEffect(() => {
     const setCurrentTime = () => {
@@ -61,20 +33,6 @@ const AutoPlay = () => {
         preload="auto"
       />
       <CloseButton onClick={() => navigate(`/ranking/${year}/1`)} />
-      {/* <PhotoNote>
-        <img
-          src={`${import.meta.env.BASE_URL}${photos[playIndex].src}`}
-          alt="作品"
-        />
-        <CloseButton onClick={() => navigate(`/ranking/${year}/1`)} />
-        <PhotoTag $prize={playIndex + 1} />
-      </PhotoNote>
-      <AuthorBanner>
-        <div>{photos[playIndex].author}</div>
-      </AuthorBanner>
-      <TitleBanner>
-        <div>{photos[playIndex].title}</div>
-      </TitleBanner> */}
     </StyledBackground>
   );
 };

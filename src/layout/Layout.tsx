@@ -1,11 +1,4 @@
-import {
-  useLoaderData,
-  useLocation,
-  useNavigate,
-  useNavigation,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 import {
   AppContainer,
   SideArrowButton,
@@ -87,7 +80,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
         videoEl.currentTime = targetTime;
         break;
       }
-      // navigate(`/autoPlay/${year}?currentTime=${targetTime}`);
       default:
         return;
     }
@@ -114,7 +106,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
         videoEl.currentTime = targetTime;
         break;
       }
-      // navigate(`/autoPlay/${year}?currentTime=${targetTime}`);
       default:
         return;
     }
