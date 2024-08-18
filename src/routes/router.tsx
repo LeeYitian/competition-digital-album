@@ -141,7 +141,8 @@ const router = createHashRouter([
         totalPages: 18,
         currentPage: currentPage,
         year: params.year,
-        data: null,
+        data: PhotoConstants[params.year as keyof typeof PhotoConstants]
+          .autoPlay,
       };
     },
     element: (

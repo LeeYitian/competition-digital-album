@@ -18,6 +18,9 @@ export const DialogContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 1vw;
+  max-height: 60%;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const DialogTitle = styled.div`
@@ -39,6 +42,7 @@ export const MusicListContainer = styled.div`
   display: flex;
   flex-direction: column;
   font-size: calc(2.5 * var(--vw));
+  overflow-y: auto;
 `;
 
 export const MusicListItem = styled.div<{ $selected: boolean }>`

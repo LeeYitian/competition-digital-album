@@ -44,7 +44,7 @@
         "prize": 6
       }
     ],
-    "autoPlay": "/assets/videos/111/autoPlay.mp4"
+    "autoPlay": "assets/videos/111/autoPlay.mp4"
   },
   "112": {
     "photos": [
@@ -91,6 +91,6 @@
         "prize": 6
       }
     ],
-    "autoPlay": "/assets/videos/112/autoPlay.mp4"
+    "autoPlay": "assets/videos/112/autoPlay.mp4"
   }
 }

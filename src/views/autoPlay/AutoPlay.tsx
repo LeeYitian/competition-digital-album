@@ -1,11 +1,11 @@
 import { CloseButton, StyledBackground } from "./AutoPlay.style";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useLoaderData, useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useRef } from "react";
 
 const AutoPlay = () => {
   const navigate = useNavigate();
   const [, setSearchParams] = useSearchParams();
-  const { year } = useParams();
+  const { year, data: videoSrc } = useLoaderData();
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -27,10 +27,11 @@ const AutoPlay = () => {
         id="autoPlay"
         ref={videoRef}
         width="100%"
-        src={`${import.meta.env.BASE_URL}assets/videos/${year}/autoPlay.mp4`}
+        src={videoSrc}
         autoPlay
         loop
         preload="auto"
+        muted
       />
       <CloseButton
         $position="top: calc(4 * var(--vw));

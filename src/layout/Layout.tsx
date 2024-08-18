@@ -34,12 +34,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const [selectedMusic, setSelectedMusic] = useState(MusicList[0].src);
   const audioRef = useRef<HTMLAudioElement>(null);
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.src = selectedMusic;
-      audioRef.current.play();
-    }
-  }, [selectedMusic]);
   const [openMusicDialog, setOpenMusicDialog] = useState(false);
 
   useEffect(() => {
@@ -70,6 +64,13 @@ const Layout = ({ children }: { children: ReactNode }) => {
       window.removeEventListener("resize", setSize);
     };
   }, [container]);
+
+  useEffect(() => {
+    if (audioRef.current && navigator.userActivation.isActive) {
+      audioRef.current.src = selectedMusic;
+      audioRef.current.play();
+    }
+  }, [selectedMusic, navigator.userActivation.isActive]);
 
   const handlePrevClick = useCallback(() => {
     const targetPage = currentPage - 1 > 1 ? currentPage - 1 : 1;
