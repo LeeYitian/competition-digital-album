@@ -1,49 +1,38 @@
-import { PhotoNote } from "@/views/detail/Detail.style";
-import {
-  AuthorBanner,
-  CloseButton,
-  PhotoTag,
-  StyledBackground,
-  TitleBanner,
-} from "./AutoPlay.style";
-import { useLoaderData, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { CloseButton, StyledBackground } from "./AutoPlay.style";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useEffect, useRef } from "react";
 
 const AutoPlay = () => {
   const navigate = useNavigate();
+  const [, setSearchParams] = useSearchParams();
   const { year } = useParams();
-  const photos = useLoaderData();
-  const [playIndex, setPlayIndex] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    const autoPlay = () => {
-      setPlayIndex((prev) => {
-        if (prev === photos.length) return 0;
-        return prev + 1;
+    const setCurrentTime = () => {
+      if (!videoRef.current) return;
+      setSearchParams({
+        currentTime: Math.ceil(videoRef.current.currentTime).toString(),
       });
     };
-
-    const timeOut = setTimeout(autoPlay, 5000);
-
-    return () => clearTimeout(timeOut);
-  }, [photos]);
+    const timer = setInterval(setCurrentTime, 1000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [videoRef, setSearchParams]);
 
   return (
     <StyledBackground>
-      <PhotoNote>
-        <img
-          src={`${import.meta.env.BASE_URL}${photos[playIndex].src}`}
-          alt="作品"
-        />
-        <CloseButton onClick={() => navigate(`/ranking/${year}/1`)} />
-        <PhotoTag $prize={playIndex + 1} />
-      </PhotoNote>
-      <AuthorBanner>
-        <div>{photos[playIndex].author}</div>
-      </AuthorBanner>
-      <TitleBanner>
-        <div>{photos[playIndex].title}</div>
-      </TitleBanner>
+      <video
+        id="autoPlay"
+        ref={videoRef}
+        width="100%"
+        src={`${import.meta.env.BASE_URL}assets/videos/${year}/autoPlay.mp4`}
+        autoPlay
+        loop
+        preload="auto"
+      />
+      <CloseButton onClick={() => navigate(`/ranking/${year}/1`)} />
     </StyledBackground>
   );
 };

@@ -45,18 +45,18 @@ export const PhotoTag = styled.div<{ $prize: number }>`
   aspect-ratio: 2/1;
 `;
 
-export const Description = styled.div`
+export const Description = styled.div<{ $url: string }>`
   position: absolute;
   bottom: 0;
   left: 0;
-  background-image: url("${import.meta.env
-    .BASE_URL}assets/detailDescription.png");
+  background-image: ${({ $url }) =>
+    `url("${import.meta.env.BASE_URL}${$url}")`};
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   width: calc(25 * var(--vw));
   aspect-ratio: 450/411;
-  padding: calc(2 * var(--vw));
+  // padding: calc(2 * var(--vw));
   & > div {
     font-size: calc(1.8 * var(--vw));
     width: 100%;
@@ -65,18 +65,19 @@ export const Description = styled.div`
   }
 `;
 
-export const TitleBanner = styled.div`
+export const TitleBanner = styled.div<{ $url: string }>`
   position: absolute;
   top: calc(5 * var(--vw));
   left: calc(0 * var(--vw));
-  background-image: url("${import.meta.env.BASE_URL}assets/detailTitle.png");
+  background-image: ${({ $url }) =>
+    `url("${import.meta.env.BASE_URL}${$url}")`};
   background-size: contain;
   background-repeat: no-repeat;
   height: calc(8 * var(--vw));
   aspect-ratio: 718/126;
-  display: flex;
-  align-items: center;
-  padding-left: calc(1 * var(--vw));
+  // display: flex;
+  // align-items: center;
+  // padding-left: calc(1 * var(--vw));
   & > div {
     color: #1b4a66;
     font-size: calc(2.8 * var(--vw));
@@ -84,18 +85,19 @@ export const TitleBanner = styled.div`
   }
 `;
 
-export const AuthorBanner = styled.div`
+export const AuthorBanner = styled.div<{ $url: string }>`
   position: absolute;
   top: calc(11 * var(--vw));
   left: calc(0 * var(--vw));
-  background-image: url("${import.meta.env.BASE_URL}assets/detailAuthor.png");
+  background-image: ${({ $url }) =>
+    `url("${import.meta.env.BASE_URL}${$url}")`};
   background-size: contain;
   background-repeat: no-repeat;
   height: calc(5 * var(--vw));
   aspect-ratio: 718/126;
-  display: flex;
-  align-items: center;
-  padding-left: calc(1 * var(--vw));
+  // display: flex;
+  // align-items: center;
+  // padding-left: calc(1 * var(--vw));
   & > div {
     color: #1b4a66;
     font-size: calc(1.8 * var(--vw));

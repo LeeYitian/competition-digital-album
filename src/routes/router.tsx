@@ -1,4 +1,9 @@
-import { createHashRouter, Navigate, redirect } from "react-router-dom";
+import {
+  createHashRouter,
+  Navigate,
+  redirect,
+  useSearchParams,
+} from "react-router-dom";
 import PhotoConstants from "@/photos.json";
 import Opening from "@/views/opening/Opening";
 import Layout from "@/layout/Layout";
@@ -22,9 +27,8 @@ type TDetailParams = {
 };
 
 type TAutoPlayParams = {
-  params: {
-    year: string;
-  };
+  params: { year: string };
+  request: Request;
 };
 
 const router = createHashRouter([
@@ -35,6 +39,12 @@ const router = createHashRouter([
   },
   {
     path: "/opening",
+    loader: () => ({
+      totalPages: undefined,
+      page: undefined,
+      year: undefined,
+      data: null,
+    }),
     element: (
       <Layout>
         <Opening />
@@ -44,6 +54,12 @@ const router = createHashRouter([
   },
   {
     path: "/main",
+    loader: () => ({
+      totalPages: undefined,
+      page: undefined,
+      year: undefined,
+      data: null,
+    }),
     element: (
       <Layout>
         <Menu />
@@ -57,7 +73,7 @@ const router = createHashRouter([
       const { year, page } = params;
       const pageSize = 3;
       const photos = Object.values(
-        PhotoConstants[year as keyof typeof PhotoConstants]
+        PhotoConstants[year as keyof typeof PhotoConstants].photos
       );
 
       const totalPages = Math.ceil(photos.length / pageSize);
@@ -69,7 +85,12 @@ const router = createHashRouter([
       for (let i = 0; i < photos.length; i += pageSize) {
         groupedPhotos.push(photos.slice(i, i + pageSize));
       }
-      return groupedPhotos[parseInt(page) - 1];
+      return {
+        data: groupedPhotos[parseInt(page) - 1],
+        totalPages,
+        currentPage: parseInt(page),
+        year,
+      };
     },
     element: (
       <Layout>
@@ -82,15 +103,17 @@ const router = createHashRouter([
     path: "/detail/:year/:prize",
     loader: ({ params }: TDetailParams) => {
       const { year, prize } = params;
-      const photos = PhotoConstants[year as keyof typeof PhotoConstants];
+      const photos = PhotoConstants[year as keyof typeof PhotoConstants].photos;
+      const totalPages = photos.length;
+      const currentPage = parseInt(prize);
 
       const lastPrize = Object.values(photos).length;
       if (parseInt(prize) > lastPrize || parseInt(prize) < 1) {
         return redirect("/main");
       }
 
-      const photo = photos[prize as keyof typeof photos];
-      return photo;
+      const photo = photos.find((item) => item.prize === parseInt(prize));
+      return { data: photo, totalPages, currentPage, year };
     },
     element: (
       <Layout>
@@ -101,13 +124,30 @@ const router = createHashRouter([
   },
   {
     path: "/autoPlay/:year",
-    loader: ({ params }: TAutoPlayParams) => {
-      const { year } = params;
-      const photos = PhotoConstants[year as keyof typeof PhotoConstants];
-      if (PhotoConstants[year as keyof typeof PhotoConstants] === undefined) {
-        return redirect("/main");
-      }
-      return Object.values(photos);
+    // loader: ({ params }: TAutoPlayParams) => {
+    //   const { year } = params;
+    //   const photos = PhotoConstants[year as keyof typeof PhotoConstants];
+    //   if (PhotoConstants[year as keyof typeof PhotoConstants] === undefined) {
+    //     return redirect("/main");
+    //   }
+    //   return Object.values(photos);
+    // },
+    loader: ({ params, request }: TAutoPlayParams) => {
+      const url = new URL(request.url);
+      const paramsTime = url.searchParams.get("currentTime");
+      const currentTime = paramsTime ?? "0";
+
+      const currentPage =
+        Math.ceil(parseInt(currentTime) / 4) > 0
+          ? Math.ceil(parseInt(currentTime) / 4)
+          : 1;
+
+      return {
+        totalPages: 18,
+        currentPage: currentPage,
+        year: params.year,
+        data: null,
+      };
     },
     element: (
       <Layout>

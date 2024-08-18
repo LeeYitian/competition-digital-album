@@ -16,8 +16,8 @@ export const StyledBackground = styled.div`
 
 export const CloseButton = styled.div`
   position: absolute;
-  top: calc(2 * var(--vw));
-  right: calc(-2 * var(--vw));
+  top: calc(4 * var(--vw));
+  right: calc(12 * var(--vw));
   background-image: url("${import.meta.env.BASE_URL}assets/closeButton.png");
   background-size: contain;
   background-repeat: no-repeat;
