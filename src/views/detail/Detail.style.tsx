@@ -24,7 +24,7 @@ export const PhotoNote = styled.div`
   width: 70%;
   aspect-ratio: 1373/945;
   padding: calc(6 * var(--vw));
-  & > img {
+  & img {
     width: 100%;
     object-fit: contain;
   }
@@ -56,6 +56,7 @@ export const Description = styled.div<{ $url: string }>`
   background-position: center;
   width: calc(25 * var(--vw));
   aspect-ratio: 450/411;
+  pointer-events: none;
   // padding: calc(2 * var(--vw));
   & > div {
     font-size: calc(1.8 * var(--vw));
@@ -75,6 +76,7 @@ export const TitleBanner = styled.div<{ $url: string }>`
   background-repeat: no-repeat;
   height: calc(8 * var(--vw));
   aspect-ratio: 718/126;
+  pointer-events: none;
   // display: flex;
   // align-items: center;
   // padding-left: calc(1 * var(--vw));
@@ -95,6 +97,7 @@ export const AuthorBanner = styled.div<{ $url: string }>`
   background-repeat: no-repeat;
   height: calc(5 * var(--vw));
   aspect-ratio: 718/126;
+  pointer-events: none;
   // display: flex;
   // align-items: center;
   // padding-left: calc(1 * var(--vw));
@@ -105,7 +108,11 @@ export const AuthorBanner = styled.div<{ $url: string }>`
   }
 `;
 
-export const DetailSideButton = styled.div<{ $color: string; $index: number }>`
+export const DetailSideButton = styled.div<{
+  $color: string;
+  $index: number;
+  $active: boolean;
+}>`
   position: absolute;
   top: ${({ $index }) => {
     switch ($index) {
@@ -140,6 +147,7 @@ export const DetailSideButton = styled.div<{ $color: string; $index: number }>`
   aspect-ratio: 1/1.5;
   padding: calc(0.5 * var(--vw));
   border-radius: 0 calc(1 * var(--vw)) calc(1 * var(--vw)) 0;
+  ${({ $active }) => $active && "outline: 3px dashed yellow;"}
   display: flex;
   flex-direction: column;
   align-items: center;

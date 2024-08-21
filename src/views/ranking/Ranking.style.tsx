@@ -39,16 +39,16 @@ export const PhotoFrame = styled.div`
     transform: rotate(2deg);
   }
   &:nth-child(2) {
-    bottom: calc(3 * var(--vw));
-    right: calc(30 * var(--vw));
-    z-index: 2;
-    transform: rotate(5deg);
-  }
-  &:last-child {
     top: calc(10 * var(--vw));
     right: calc(10 * var(--vw));
     z-index: 1;
     transform: rotate(-4deg);
+  }
+  &:last-child {
+    bottom: calc(3 * var(--vw));
+    right: calc(30 * var(--vw));
+    z-index: 2;
+    transform: rotate(5deg);
   }
 `;
 
@@ -83,9 +83,9 @@ export const PhotoTag = styled.div<{
         }
         return "calc(-3*var(--vw))";
       case 1:
-        return "calc(5*var(--vw))";
-      case 2:
         return "calc(0*var(--vw))";
+      case 2:
+        return "calc(5*var(--vw))";
     }
   }};
   right: ${({ $no }) => {
@@ -93,9 +93,9 @@ export const PhotoTag = styled.div<{
       case 0:
         return "calc(-5*var(--vw))";
       case 1:
-        return "calc(-14*var(--vw))";
-      case 2:
         return "calc(-5*var(--vw))";
+      case 2:
+        return "calc(-14*var(--vw))";
     }
   }};
 `;
