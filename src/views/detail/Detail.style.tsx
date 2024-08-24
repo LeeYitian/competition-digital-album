@@ -33,16 +33,20 @@ export const PhotoNote = styled.div`
 export const PhotoTag = styled.div<{ $prize: number }>`
   position: absolute;
   top: ${({ $prize }) =>
-    $prize > 1 ? "calc(0*var(--vw))" : "calc(-2*var(--vw))"};
+    $prize > 1 ? "calc(0*var(--vw));" : "calc(-2*var(--vw));"}
   right: calc(-10 * var(--vw));
   background-image: url("${import.meta.env.BASE_URL}assets/prize-${({
-    $prize,
-  }) => ($prize > 3 ? 3 : $prize)}.png");
+  $prize,
+}) => ($prize > 3 ? 3 : $prize)}.png");
   background-size: contain;
   background-repeat: no-repeat;
   width: ${({ $prize }) =>
     $prize > 1 ? "calc(15*var(--vw))" : "calc(20*var(--vw))"};
   aspect-ratio: 2/1;
+  transition: top 0.5s;
+  &.hide {
+    top: calc(-10*var(--vw));
+  }
 `;
 
 export const Description = styled.div<{ $url: string }>`
@@ -57,6 +61,7 @@ export const Description = styled.div<{ $url: string }>`
   width: calc(25 * var(--vw));
   aspect-ratio: 450/411;
   pointer-events: none;
+  transition: bottom 0.5s;
   // padding: calc(2 * var(--vw));
   & > div {
     font-size: calc(1.8 * var(--vw));
@@ -64,12 +69,15 @@ export const Description = styled.div<{ $url: string }>`
     height: 100%;
     rotate: -9deg;
   }
+  &.hide {
+    bottom: calc(-15 * var(--vw));
+  }
 `;
 
 export const TitleBanner = styled.div<{ $url: string }>`
   position: absolute;
   top: calc(5 * var(--vw));
-  left: calc(0 * var(--vw));
+  left: 0;
   background-image: ${({ $url }) =>
     `url("${import.meta.env.BASE_URL}${$url}")`};
   background-size: contain;
@@ -77,6 +85,7 @@ export const TitleBanner = styled.div<{ $url: string }>`
   height: calc(8 * var(--vw));
   aspect-ratio: 718/126;
   pointer-events: none;
+  transition: left 0.5s;
   // display: flex;
   // align-items: center;
   // padding-left: calc(1 * var(--vw));
@@ -85,12 +94,15 @@ export const TitleBanner = styled.div<{ $url: string }>`
     font-size: calc(2.8 * var(--vw));
     rotate: -4deg;
   }
+  &.hide {
+    left: calc(-20 * var(--vw));
+  }
 `;
 
 export const AuthorBanner = styled.div<{ $url: string }>`
   position: absolute;
   top: calc(11 * var(--vw));
-  left: calc(0 * var(--vw));
+  left: 0;
   background-image: ${({ $url }) =>
     `url("${import.meta.env.BASE_URL}${$url}")`};
   background-size: contain;
@@ -98,6 +110,7 @@ export const AuthorBanner = styled.div<{ $url: string }>`
   height: calc(5 * var(--vw));
   aspect-ratio: 718/126;
   pointer-events: none;
+  transition: left 0.5s;
   // display: flex;
   // align-items: center;
   // padding-left: calc(1 * var(--vw));
@@ -105,6 +118,9 @@ export const AuthorBanner = styled.div<{ $url: string }>`
     color: #1b4a66;
     font-size: calc(1.8 * var(--vw));
     rotate: -4deg;
+  }
+  &.hide {
+    left: calc(-10 * var(--vw));
   }
 `;
 
@@ -164,4 +180,11 @@ export const DetailSideButton = styled.div<{
     padding-left: calc(0.5 * var(--vw));
     color: ${({ $index }) => ($index === 3 ? "black" : "white")};
   }
+`;
+
+export const ImageContainer = styled.div<{ $useFlip: boolean }>`
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  opacity: ${({ $useFlip }) => ($useFlip ? 0 : 1)};
 `;

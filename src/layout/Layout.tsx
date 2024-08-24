@@ -32,7 +32,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const path = pathname.split("/")[1];
   const { totalPages, currentPage, year } = useLoaderData();
   const [openMenu, setOpenMenu] = useState(false);
-  const [selectedMusic, setSelectedMusic] = useState("");
+  const [selectedMusic, setSelectedMusic] = useState(MusicList[0].src);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [openMusicDialog, setOpenMusicDialog] = useState(false);
 

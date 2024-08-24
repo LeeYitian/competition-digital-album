@@ -1,14 +1,17 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import HTMLFlipBook from "react-pageflip";
 import {
   AuthorBanner,
   Description,
   DetailSideButton,
+  ImageContainer,
   PhotoNote,
   PhotoTag,
   StyledBackground,
   TitleBanner,
 } from "@/views/detail/Detail.style";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { TPhoto } from "../ranking/Ranking";
 
 enum SideButtonFunction {
   Zoom = "zoom",
@@ -45,16 +48,22 @@ const sideButton = [
 ];
 
 const Detail = () => {
-  const { data: photo } = useLoaderData();
+  const { data: photo, allPhotos, year, currentPage } = useLoaderData();
+  const navigate = useNavigate();
   const [showButtonText, setShowButtonText] = useState(true);
   const [currentFunction, setCurrentFunction] = useState("");
+  const [useFlip, setUseFlip] = useState(false);
   const photoRef = useRef<HTMLImageElement>(null);
   const scale = useRef(1);
   const point = useRef({ x: 0, y: 0 });
   const start = useRef({ x: 0, y: 0 });
-  const originalPosition = useRef(null);
   const isPanning = useRef(false);
-  // const [isPanning, setIsPanning] = useState(false);
+  const noteRef = useRef<HTMLDivElement>(null);
+  const photoTagRef = useRef<HTMLDivElement>(null);
+  const descriptionRef = useRef<HTMLDivElement>(null);
+  const titleBannerRef = useRef<HTMLDivElement>(null);
+  const authorBannerRef = useRef<HTMLDivElement>(null);
+  const flipBookRef = useRef(null);
 
   useEffect(() => {
     const showText = () => {
@@ -72,7 +81,7 @@ const Detail = () => {
   });
 
   const setTransform = useCallback(() => {
-    if (!photoRef.current) return;
+    if (!photoRef.current || !noteRef.current) return;
 
     if (scale.current === 1) {
       photoRef.current.style.transform = "none";
@@ -85,9 +94,28 @@ const Detail = () => {
   const handleZoom = useCallback(
     (e: WheelEvent) => {
       e.preventDefault();
-      if (!photoRef.current) return;
-      const xs = (e.clientX - point.current.x) / scale.current;
-      const ys = (e.clientY - point.current.y) / scale.current;
+      if (!photoRef.current || !noteRef.current) return;
+
+      // 限制縮放範圍
+      if (
+        (e.deltaY < 0 && scale.current >= 4) ||
+        (e.deltaY > 0 && scale.current <= 1)
+      )
+        return;
+      const paddingLeft = parseInt(
+        getComputedStyle(noteRef.current).paddingLeft
+      );
+      const paddingTop = parseInt(getComputedStyle(noteRef.current).paddingTop);
+      const xs =
+        (e.clientX -
+          point.current.x +
+          (e.deltaY < 0 ? paddingLeft * -1 : paddingLeft * 1)) /
+        scale.current;
+      const ys =
+        (e.clientY -
+          point.current.y +
+          (e.deltaY < 0 ? paddingTop * -1 : paddingTop * 1)) /
+        scale.current;
 
       if (e.deltaY > 0) {
         scale.current /= 1.2;
@@ -99,11 +127,9 @@ const Detail = () => {
         x: e.clientX - xs * scale.current,
         y: e.clientY - ys * scale.current,
       };
-
-      scale.current = Math.max(1, Math.min(4, scale.current)); // 限制縮放範圍
       setTransform();
     },
-    [photoRef, point, setTransform]
+    [photoRef, noteRef, point, setTransform]
   );
   const handleMouseDown = useCallback(
     (e: MouseEvent) => {
@@ -121,7 +147,6 @@ const Detail = () => {
     if (!photoRef.current) return;
     isPanning.current = false;
   }, [photoRef, isPanning]);
-
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
       e.preventDefault();
@@ -135,49 +160,162 @@ const Detail = () => {
     [isPanning, point, setTransform]
   );
 
-  const handleSideButtonClick = (id: SideButtonFunction) => {
-    if (!photoRef.current) return;
-    setCurrentFunction(id);
-    photoRef.current.removeEventListener("wheel", handleZoom);
-    photoRef.current.removeEventListener("mousedown", handleMouseDown);
-    photoRef.current.removeEventListener("mouseup", handleMouseUp);
-    photoRef.current.removeEventListener("mousemove", handleMouseMove);
+  const handleSideButtonClick = useCallback(
+    (id: SideButtonFunction) => {
+      if (!photoRef.current) return;
+      setCurrentFunction(id);
+      photoRef.current.removeEventListener("wheel", handleZoom);
+      photoRef.current.removeEventListener("mousedown", handleMouseDown);
+      photoRef.current.removeEventListener("mouseup", handleMouseUp);
+      photoRef.current.removeEventListener("mousemove", handleMouseMove);
 
-    photoRef.current.style.transform = "none";
-    point.current = { x: 0, y: 0 };
-    scale.current = 1;
-    start.current = { x: 0, y: 0 };
+      photoRef.current.style.transform = "none";
+      point.current = { x: 0, y: 0 };
+      scale.current = 1;
+      start.current = { x: 0, y: 0 };
 
-    switch (id) {
+      switch (id) {
+        case SideButtonFunction.Zoom:
+          photoRef.current.addEventListener("wheel", handleZoom);
+          photoRef.current.addEventListener("mousedown", handleMouseDown);
+          photoRef.current.addEventListener("mouseup", handleMouseUp);
+          photoRef.current.addEventListener("mousemove", handleMouseMove);
+          break;
+        case SideButtonFunction.Read:
+          break;
+        case SideButtonFunction.Flip:
+          break;
+        case SideButtonFunction.Note:
+          break;
+        default:
+          break;
+      }
+    },
+    [
+      photoRef,
+      point,
+      start,
+      scale,
+      handleZoom,
+      handleMouseDown,
+      handleMouseUp,
+      handleMouseMove,
+      setCurrentFunction,
+    ]
+  );
+
+  const flipWidth = useMemo(() => {
+    if (!noteRef.current) return 700;
+    const padding = parseInt(
+      window.getComputedStyle(noteRef.current).paddingLeft
+    );
+    return noteRef.current.clientWidth - padding * 2;
+  }, [noteRef, currentFunction]);
+
+  const flipHeight = useMemo(() => {
+    if (!noteRef.current) return 500;
+    const padding = parseInt(
+      window.getComputedStyle(noteRef.current).paddingTop
+    );
+    return noteRef.current.clientHeight - padding * 2;
+  }, [noteRef, currentFunction]);
+
+  const cursor = useMemo(() => {
+    switch (currentFunction) {
       case SideButtonFunction.Zoom:
-        photoRef.current.addEventListener("wheel", handleZoom);
-        photoRef.current.addEventListener("mousedown", handleMouseDown);
-        photoRef.current.addEventListener("mouseup", handleMouseUp);
-        photoRef.current.addEventListener("mousemove", handleMouseMove);
-        break;
-      case SideButtonFunction.Read:
-        break;
+        return "grab";
       case SideButtonFunction.Flip:
-        console.log("flip");
-        break;
-      case SideButtonFunction.Note:
+        return "pointer";
+      default:
+        return "default";
+    }
+  }, [currentFunction]);
+
+  const hideElements = (status: string) => {
+    if (
+      !photoTagRef.current ||
+      !descriptionRef.current ||
+      !titleBannerRef.current ||
+      !authorBannerRef.current ||
+      !flipBookRef.current
+    )
+      return;
+
+    switch (status) {
+      case "read":
+        photoTagRef.current.classList.remove("hide");
+        descriptionRef.current.classList.remove("hide");
+        titleBannerRef.current.classList.remove("hide");
+        authorBannerRef.current.classList.remove("hide");
         break;
       default:
-        break;
+        photoTagRef.current.classList.add("hide");
+        descriptionRef.current.classList.add("hide");
+        titleBannerRef.current.classList.add("hide");
+        authorBannerRef.current.classList.add("hide");
     }
   };
 
   return (
     <StyledBackground>
-      <PhotoNote>
-        <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
+      <PhotoNote ref={noteRef}>
+        <ImageContainer $useFlip={currentFunction === SideButtonFunction.Flip}>
           <img
             ref={photoRef}
             src={`${import.meta.env.BASE_URL}${photo.src}`}
             alt="作品"
+            style={{ cursor }}
           />
-        </div>
-        <PhotoTag $prize={photo.prize} />
+        </ImageContainer>
+        {currentFunction === SideButtonFunction.Flip && (
+          <HTMLFlipBook
+            ref={flipBookRef}
+            className="flipbook"
+            style={{
+              position: "absolute",
+              top: getComputedStyle(noteRef.current!).paddingTop,
+              left: getComputedStyle(noteRef.current!).paddingTop,
+              cursor: "pointer",
+            }}
+            width={flipWidth}
+            height={flipHeight}
+            minWidth={flipWidth}
+            maxWidth={flipWidth}
+            minHeight={flipHeight}
+            maxHeight={flipHeight}
+            size="fixed"
+            maxShadowOpacity={0.5}
+            showCover={false}
+            mobileScrollSupport={true}
+            onFlip={(info) => {
+              navigate(`/detail/${year}/${info.data + 1}`);
+            }}
+            onChangeOrientation={undefined}
+            onChangeState={({ data: status }) => {
+              hideElements(status);
+            }}
+            startPage={currentPage - 1}
+            drawShadow={true}
+            flippingTime={800}
+            usePortrait={true}
+            startZIndex={0}
+            autoSize={false}
+            clickEventForward={false}
+            useMouseEvents={true}
+            swipeDistance={100}
+            showPageCorners={true}
+            disableFlipByClick={false}
+          >
+            {allPhotos.map((photo: TPhoto) => (
+              <img
+                key={photo.src}
+                src={`${import.meta.env.BASE_URL}${photo.src}`}
+                alt="作品"
+              />
+            ))}
+          </HTMLFlipBook>
+        )}
+        <PhotoTag $prize={photo.prize} ref={photoTagRef} />
         {sideButton.map(({ icon, text, color, id }, index) => (
           <DetailSideButton
             key={text}
@@ -191,9 +329,9 @@ const Detail = () => {
           </DetailSideButton>
         ))}
       </PhotoNote>
-      <Description $url={photo.description} />
-      <TitleBanner $url={photo.title} />
-      <AuthorBanner $url={photo.author} />
+      <Description $url={photo.description} ref={descriptionRef} />
+      <TitleBanner $url={photo.title} ref={titleBannerRef} />
+      <AuthorBanner $url={photo.author} ref={authorBannerRef} />
     </StyledBackground>
   );
 };

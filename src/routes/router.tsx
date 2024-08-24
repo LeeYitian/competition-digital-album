@@ -108,7 +108,7 @@ const router = createHashRouter([
       }
 
       const photo = photos.find((item) => item.prize === parseInt(prize));
-      return { data: photo, totalPages, currentPage, year };
+      return { data: photo, totalPages, currentPage, year, allPhotos: photos };
     },
     element: (
       <Layout>
@@ -119,14 +119,6 @@ const router = createHashRouter([
   },
   {
     path: "/autoPlay/:year",
-    // loader: ({ params }: TAutoPlayParams) => {
-    //   const { year } = params;
-    //   const photos = PhotoConstants[year as keyof typeof PhotoConstants];
-    //   if (PhotoConstants[year as keyof typeof PhotoConstants] === undefined) {
-    //     return redirect("/main");
-    //   }
-    //   return Object.values(photos);
-    // },
     loader: ({ params, request }: TAutoPlayParams) => {
       const url = new URL(request.url);
       const paramsTime = url.searchParams.get("currentTime");
