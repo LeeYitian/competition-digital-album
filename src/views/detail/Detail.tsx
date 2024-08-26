@@ -12,6 +12,8 @@ import {
   TitleBanner,
 } from "@/views/detail/Detail.style";
 import { TPhoto } from "../ranking/Ranking";
+import StickyNote from "@/components/StickyNote/StickNote";
+import { useDrop } from "react-dnd";
 
 enum SideButtonFunction {
   Zoom = "zoom",
@@ -47,23 +49,49 @@ const sideButton = [
   },
 ];
 
+//{111:{1:''}}
 const Detail = () => {
   const { data: photo, allPhotos, year, currentPage } = useLoaderData();
   const navigate = useNavigate();
   const [showButtonText, setShowButtonText] = useState(true);
   const [currentFunction, setCurrentFunction] = useState("");
-  const [useFlip, setUseFlip] = useState(false);
+  let storedTexts: Record<string, Record<string, string>> | null = null;
+  try {
+    const storage = sessionStorage.getItem("note");
+    if (storage === null) {
+      storedTexts = null;
+    } else {
+      storedTexts = JSON.parse(storage);
+    }
+  } catch (err) {
+    console.log("getting note error", err);
+  }
+  const [noteText, setNoteText] = useState("");
   const photoRef = useRef<HTMLImageElement>(null);
   const scale = useRef(1);
   const point = useRef({ x: 0, y: 0 });
   const start = useRef({ x: 0, y: 0 });
   const isPanning = useRef(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const noteRef = useRef<HTMLDivElement>(null);
   const photoTagRef = useRef<HTMLDivElement>(null);
   const descriptionRef = useRef<HTMLDivElement>(null);
   const titleBannerRef = useRef<HTMLDivElement>(null);
   const authorBannerRef = useRef<HTMLDivElement>(null);
   const flipBookRef = useRef(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [, drop] = useDrop(() => ({
+    accept: "stickyNote",
+    drop: (_, monitor) => {
+      const containerTop = containerRef.current!.getBoundingClientRect().top;
+      const containerLeft = containerRef.current!.getBoundingClientRect().left;
+      const sourceOffset = monitor.getSourceClientOffset();
+      return {
+        x: sourceOffset!.x - containerLeft,
+        y: sourceOffset!.y - containerTop,
+      };
+    },
+  }));
 
   useEffect(() => {
     const showText = () => {
@@ -79,6 +107,14 @@ const Detail = () => {
       window.removeEventListener("resize", showText);
     };
   });
+
+  useEffect(() => {
+    const rememberedText =
+      storedTexts === null || !storedTexts[year][photo.prize]
+        ? "點擊兩下開始編輯"
+        : storedTexts[year][photo.prize];
+    setNoteText(rememberedText);
+  }, [currentPage, photo, year, storedTexts]);
 
   const setTransform = useCallback(() => {
     if (!photoRef.current || !noteRef.current) return;
@@ -107,12 +143,12 @@ const Detail = () => {
       );
       const paddingTop = parseInt(getComputedStyle(noteRef.current).paddingTop);
       const xs =
-        (e.clientX -
+        (e.offsetX -
           point.current.x +
           (e.deltaY < 0 ? paddingLeft * -1 : paddingLeft * 1)) /
         scale.current;
       const ys =
-        (e.clientY -
+        (e.offsetY -
           point.current.y +
           (e.deltaY < 0 ? paddingTop * -1 : paddingTop * 1)) /
         scale.current;
@@ -124,8 +160,8 @@ const Detail = () => {
       }
 
       point.current = {
-        x: e.clientX - xs * scale.current,
-        y: e.clientY - ys * scale.current,
+        x: e.offsetX - xs * scale.current,
+        y: e.offsetY - ys * scale.current,
       };
       setTransform();
     },
@@ -182,6 +218,12 @@ const Detail = () => {
           photoRef.current.addEventListener("mousemove", handleMouseMove);
           break;
         case SideButtonFunction.Read:
+          if (audioRef.current) {
+            audioRef.current.paused
+              ? audioRef.current.play()
+              : audioRef.current.pause();
+          }
+
           break;
         case SideButtonFunction.Flip:
           break;
@@ -193,6 +235,7 @@ const Detail = () => {
     },
     [
       photoRef,
+      audioRef,
       point,
       start,
       scale,
@@ -256,8 +299,26 @@ const Detail = () => {
     }
   };
 
+  const saveNoteText = (value: string) => {
+    setNoteText(value);
+    if (storedTexts === null) {
+      sessionStorage.setItem(
+        "note",
+        JSON.stringify({ [year]: { [photo.prize]: value } })
+      );
+    } else {
+      storedTexts[year][photo.prize] = value;
+      sessionStorage.setItem("note", JSON.stringify(storedTexts));
+    }
+  };
+
   return (
-    <StyledBackground>
+    <StyledBackground
+      ref={(el) => {
+        drop(el);
+        containerRef.current = el;
+      }}
+    >
       <PhotoNote ref={noteRef}>
         <ImageContainer $useFlip={currentFunction === SideButtonFunction.Flip}>
           <img
@@ -332,6 +393,10 @@ const Detail = () => {
       <Description $url={photo.description} ref={descriptionRef} />
       <TitleBanner $url={photo.title} ref={titleBannerRef} />
       <AuthorBanner $url={photo.author} ref={authorBannerRef} />
+      {currentFunction === SideButtonFunction.Note && (
+        <StickyNote text={noteText} setText={saveNoteText} />
+      )}
+      <audio ref={audioRef} src={photo.descriptionSrc} />
     </StyledBackground>
   );
 };

@@ -158,6 +158,7 @@ export const DetailSideButton = styled.div<{
         return "calc(-4.5*var(--vw))";
     }
   }};
+  z-index: 2;
   background: ${({ $color }) => $color};
   width: calc(5 * var(--vw));
   aspect-ratio: 1/1.5;
