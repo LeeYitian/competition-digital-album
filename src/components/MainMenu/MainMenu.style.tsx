@@ -10,7 +10,7 @@ export const Menu = styled.div<{ $open: boolean }>`
   background: #07a4e9;
   border-radius: calc(1 * var(--vw)) 0 0 0;
   width: calc(40 * var(--vw));
-  aspect-ratio: 750/150;
+  aspect-ratio: 750/180;
   transition: right 0.5s;
 `;
 

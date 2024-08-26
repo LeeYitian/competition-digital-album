@@ -10,6 +10,11 @@ type TStickyNote = {
 const StickyNote = ({ text, setText }: TStickyNote) => {
   const [typing, setTyping] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  // try{
+
+  // }catch(err){
+  //   console.log()
+  // }
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [, drag] = useDrag({
     type: "stickyNote",
@@ -27,6 +32,10 @@ const StickyNote = ({ text, setText }: TStickyNote) => {
       inputRef.current.focus();
     }
   }, [inputRef, typing]);
+
+  // useEffect(() => {
+  //   sessionStorage.setItem("notePosition", JSON.stringify(position));
+  // }, [position]);
 
   return (
     <Note ref={drag} $position={position}>

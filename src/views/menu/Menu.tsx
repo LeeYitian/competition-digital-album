@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import {
-  MainTitle,
+  // MainTitle,
   StyledBackground,
   YearButton,
   YearButtonGroup,
 } from "./Menu.style";
-import PhotoConstants from "@/photos.json";
+import PhotoConstants from "~/assets/photos.json";
 
 const years = Object.keys(PhotoConstants);
 
@@ -14,7 +14,7 @@ const Menu = () => {
 
   return (
     <StyledBackground>
-      <MainTitle />
+      {/* <MainTitle /> */}
       <YearButtonGroup>
         {years.map((year) => (
           <YearButton

@@ -55,11 +55,11 @@ export const PhotoFrame = styled.div`
 export const PhotoTag = styled.div<{
   $prize: number;
   $no: number;
-  $page: string;
+  $page: number;
 }>`
   background-image: url("${import.meta.env.BASE_URL}assets/prize-${({
     $prize,
-  }) => ($prize > 3 ? 3 : $prize)}.png");
+  }) => ($prize > 3 ? 4 : $prize)}.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -70,7 +70,7 @@ export const PhotoTag = styled.div<{
       case 2:
       case 3:
       default:
-        return "calc(15*var(--vw))";
+        return "calc(16*var(--vw))";
     }
   }};
   aspect-ratio: 2/1;
@@ -78,14 +78,14 @@ export const PhotoTag = styled.div<{
   top: ${({ $no, $page }) => {
     switch ($no) {
       case 0:
-        if ($page === "1") {
-          return "calc(-7*var(--vw))";
+        if ($page === 1) {
+          return "calc(-6*var(--vw))";
         }
         return "calc(-3*var(--vw))";
       case 1:
-        return "calc(0*var(--vw))";
+        return "calc(-1*var(--vw))";
       case 2:
-        return "calc(5*var(--vw))";
+        return "calc(2*var(--vw))";
     }
   }};
   right: ${({ $no }) => {
@@ -93,7 +93,7 @@ export const PhotoTag = styled.div<{
       case 0:
         return "calc(-5*var(--vw))";
       case 1:
-        return "calc(-5*var(--vw))";
+        return "calc(-7*var(--vw))";
       case 2:
         return "calc(-14*var(--vw))";
     }

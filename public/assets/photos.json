@@ -1,0 +1,108 @@
+{
+  "111": {
+    "photos": [
+      {
+        "title": "assets/photos/111/1-title.png",
+        "author": "assets/photos/111/1-author.png",
+        "description": "assets/photos/111/1-description.png",
+        "src": "assets/photos/111/1.jpg",
+        "prize": 1,
+        "descriptionSrc": "assets/description/111/1.mp3"
+      },
+      {
+        "title": "assets/photos/111/2-title.png",
+        "author": "assets/photos/111/2-author.png",
+        "description": "assets/photos/111/2-description.png",
+        "src": "assets/photos/111/2.jpg",
+        "prize": 2,
+        "descriptionSrc": "assets/description/111/2.mp3"
+      },
+      {
+        "title": "",
+        "author": "",
+        "description": "",
+        "src": "assets/photos/111/3.jpg",
+        "prize": 3,
+        "descriptionSrc": "assets/description/111/3.mp3"
+      },
+      {
+        "title": "",
+        "author": "",
+        "description": "",
+        "src": "assets/photos/111/4.jpg",
+        "prize": 4,
+        "descriptionSrc": "assets/description/111/4.mp3"
+      },
+      {
+        "title": "",
+        "author": "",
+        "description": "",
+        "src": "assets/photos/111/5.jpg",
+        "prize": 5,
+        "descriptionSrc": "assets/description/111/5.mp3"
+      },
+      {
+        "title": "",
+        "author": "",
+        "description": "",
+        "src": "assets/photos/111/6.jpg",
+        "prize": 6,
+        "descriptionSrc": "assets/description/111/6.mp3"
+      }
+    ],
+    "autoPlay": "assets/videos/111/autoPlay.mp4"
+  },
+  "112": {
+    "photos": [
+      {
+        "title": "",
+        "author": "",
+        "description": "",
+        "src": "assets/photos/112/1.jpg",
+        "prize": 1,
+        "descriptionSrc": "assets/description/112/1.mp3"
+      },
+      {
+        "title": "",
+        "author": "",
+        "description": "",
+        "src": "assets/photos/112/2.jpg",
+        "prize": 2,
+        "descriptionSrc": "assets/description/112/2.mp3"
+      },
+      {
+        "title": "",
+        "author": "",
+        "description": "",
+        "src": "assets/photos/112/3.jpg",
+        "prize": 3,
+        "descriptionSrc": "assets/description/112/3.mp3"
+      },
+      {
+        "title": "",
+        "author": "",
+        "description": "",
+        "src": "assets/photos/112/4.jpg",
+        "prize": 4,
+        "descriptionSrc": "assets/description/112/4.mp3"
+      },
+      {
+        "title": "",
+        "author": "",
+        "description": "",
+        "src": "assets/photos/112/5.jpg",
+        "prize": 5,
+        "descriptionSrc": "assets/description/112/5.mp3"
+      },
+      {
+        "title": "",
+        "author": "",
+        "description": "",
+        "src": "assets/photos/112/6.jpg",
+        "prize": 6,
+        "descriptionSrc": "assets/description/112/6.mp3"
+      }
+    ],
+    "autoPlay": "assets/videos/112/autoPlay.mp4"
+  }
+}

@@ -27,7 +27,7 @@ export const SkipButton = styled.div`
   background-image: url("${import.meta.env.BASE_URL}assets/skipButton.png");
   background-size: contain;
   background-repeat: no-repeat;
-  box-shadow: 0rem 0rem 0.5rem #7b4135;
+  // box-shadow: 0rem 0rem 0.5rem #7b4135;
   width: calc(8 * var(--vw));
   height: auto;
   aspect-ratio: 160/70;

@@ -37,11 +37,11 @@ export const PhotoTag = styled.div<{ $prize: number }>`
   right: calc(-10 * var(--vw));
   background-image: url("${import.meta.env.BASE_URL}assets/prize-${({
   $prize,
-}) => ($prize > 3 ? 3 : $prize)}.png");
+}) => ($prize > 3 ? 4 : $prize)}.png");
   background-size: contain;
   background-repeat: no-repeat;
   width: ${({ $prize }) =>
-    $prize > 1 ? "calc(15*var(--vw))" : "calc(20*var(--vw))"};
+    $prize > 1 ? "calc(18*var(--vw))" : "calc(20*var(--vw))"};
   aspect-ratio: 2/1;
   transition: top 0.5s;
   &.hide {
@@ -135,27 +135,27 @@ export const DetailSideButton = styled.div<{
       case 0:
         return "15%";
       case 1:
-        return "34%";
+        return "33%";
       case 2:
-        return "53%";
+        return "51%";
       case 3:
-        return "72%";
+        return "69%";
       default:
-        return "20%";
+        return "15%";
     }
   }};
   right: ${({ $index }) => {
     switch ($index) {
       case 0:
-        return "calc(-4.5*var(--vw))";
+        return "calc(-3.4*var(--vw))";
       case 1:
-        return "calc(-4.2*var(--vw))";
+        return "calc(-3.1*var(--vw))";
       case 2:
-        return "calc(-3.9*var(--vw))";
+        return "calc(-2.8*var(--vw))";
       case 3:
-        return "calc(-3.5*var(--vw))";
+        return "calc(-2.4*var(--vw))";
       default:
-        return "calc(-4.5*var(--vw))";
+        return "calc(-3.4*var(--vw))";
     }
   }};
   z-index: 2;

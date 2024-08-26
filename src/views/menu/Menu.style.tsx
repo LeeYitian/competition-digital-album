@@ -13,21 +13,24 @@ export const StyledBackground = styled.div`
   align-items: center;
 `;
 
-export const MainTitle = styled.div`
-  background-image: url("${import.meta.env.BASE_URL}assets/title.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  width: calc(30 * var(--vw));
-  aspect-ratio: 910/270;
-`;
+// export const MainTitle = styled.div`
+//   background-image: url("${import.meta.env.BASE_URL}assets/title.png");
+//   background-size: contain;
+//   background-repeat: no-repeat;
+//   background-position: center;
+//   width: calc(30 * var(--vw));
+//   aspect-ratio: 910/270;
+// `;
 
 export const YearButtonGroup = styled.div`
   display: flex;
   justify-content: space-around;
   width: 80%;
   aspect-ratio: 2/0.5;
-  padding: calc(2 * var(--vw)) 0;
+  position: relative;
+  top: 10%;
+  left: 3%;
+  // padding: calc(2 * var(--vw)) 0;
 `;
 
 export const YearButton = styled.div<{ $year: string }>`

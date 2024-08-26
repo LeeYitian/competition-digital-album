@@ -2,20 +2,13 @@ import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 import {
   AppContainer,
   SideArrowButton,
-  SideFlag,
-  TopFlag,
+  // SideFlag,
+  // TopFlag,
 } from "./Layout.style";
-import {
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import MainMenu from "@/components/MainMenu/MainMenu";
 import MusicDialog from "@/components/MusicDialog/MusicDialog";
-import MusicList from "@/music.json";
+import MusicList from "~/assets/music.json";
 
 const showMainMenu = (pathname: string) => {
   return pathname !== "/opening";
@@ -123,34 +116,34 @@ const Layout = ({ children }: { children: ReactNode }) => {
     }
   }, [path, currentPage, year, navigate, totalPages]);
 
-  const flagDecoration = useMemo(() => {
-    switch (path) {
-      case "detail":
-        return <TopFlag />;
-      case "autoPlay":
-        return null;
-      case "opening":
-      case "main":
-      case "ranking":
-      default:
-        return (
-          <>
-            <SideFlag $flip={false} />
-            <SideFlag $flip={true} />
-          </>
-        );
-    }
-  }, [path]);
+  // const flagDecoration = useMemo(() => {
+  //   switch (path) {
+  //     case "detail":
+  //       return <TopFlag />;
+  //     case "autoPlay":
+  //       return null;
+  //     case "opening":
+  //     case "main":
+  //     case "ranking":
+  //     default:
+  //       return (
+  //         <>
+  //           <SideFlag $flip={false} />
+  //           <SideFlag $flip={true} />
+  //         </>
+  //       );
+  //   }
+  // }, [path]);
 
   return (
     <AppContainer ref={container}>
-      {!pathname.includes("autoPlay") && (
+      {/* {!pathname.includes("autoPlay") && (
         <img
           src={`${import.meta.env.BASE_URL}assets/logo.png`}
           alt="新北市政府全民國防攝影競賽"
         />
-      )}
-      {flagDecoration}
+      )} */}
+      {/* {flagDecoration} */}
       {showSideArrow(pathname) && (
         <SideArrowButton
           $flip={false}

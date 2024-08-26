@@ -1,5 +1,5 @@
 import { createHashRouter, Navigate, redirect } from "react-router-dom";
-import PhotoConstants from "@/photos.json";
+import PhotoConstants from "~/assets/photos.json";
 import Opening from "@/views/opening/Opening";
 import Layout from "@/layout/Layout";
 import Menu from "@/views/menu/Menu";
