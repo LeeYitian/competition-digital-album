@@ -13,7 +13,6 @@ import {
 } from "@/views/detail/Detail.style";
 import { TPhoto } from "../ranking/Ranking";
 import StickyNote from "@/components/StickyNote/StickNote";
-import { useDrop } from "react-dnd";
 
 enum SideButtonFunction {
   Zoom = "zoom",
@@ -80,18 +79,6 @@ const Detail = () => {
   const authorBannerRef = useRef<HTMLDivElement>(null);
   const flipBookRef = useRef(null);
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [, drop] = useDrop(() => ({
-    accept: "stickyNote",
-    drop: (_, monitor) => {
-      const containerTop = containerRef.current!.getBoundingClientRect().top;
-      const containerLeft = containerRef.current!.getBoundingClientRect().left;
-      const sourceOffset = monitor.getSourceClientOffset();
-      return {
-        x: sourceOffset!.x - containerLeft,
-        y: sourceOffset!.y - containerTop,
-      };
-    },
-  }));
 
   useEffect(() => {
     const showText = () => {
@@ -313,12 +300,7 @@ const Detail = () => {
   };
 
   return (
-    <StyledBackground
-      ref={(el) => {
-        drop(el);
-        containerRef.current = el;
-      }}
-    >
+    <StyledBackground ref={containerRef}>
       <PhotoNote ref={noteRef}>
         <ImageContainer $useFlip={currentFunction === SideButtonFunction.Flip}>
           <img
