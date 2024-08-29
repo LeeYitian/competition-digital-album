@@ -21,6 +21,9 @@ export const VideoContainer = styled.div`
   background-color: #986e56;
   box-shadow: inset 0.5vw 0.5vw #7b4135, inset -0.5vw 0 #7b4135;
   border-radius: calc(1 * var(--vw));
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const SkipButton = styled.div`
