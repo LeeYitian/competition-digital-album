@@ -7,6 +7,7 @@ export type TPhoto = {
   author: string;
   description: string;
   prize: number;
+  photoTag: number;
 };
 
 const Ranking = () => {
@@ -25,7 +26,7 @@ const Ranking = () => {
             src={`${import.meta.env.BASE_URL}${photo.src}`}
             alt={`作品${index + 1}`}
           />
-          <PhotoTag $prize={photo.prize} $no={index} $page={currentPage} />
+          <PhotoTag $prize={photo.photoTag} $no={index} $page={currentPage} />
         </PhotoFrame>
       ))}
     </StyledBackground>

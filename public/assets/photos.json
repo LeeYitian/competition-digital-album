@@ -7,7 +7,8 @@
         "description": "assets/photos/111/1-description.png",
         "src": "assets/photos/111/1.jpg",
         "prize": 1,
-        "descriptionSrc": "assets/description/111/1.mp3"
+        "descriptionSrc": "assets/description/111/1.mp3",
+        "photoTag": 1
       },
       {
         "title": "assets/photos/111/2-title.png",
@@ -15,39 +16,152 @@
         "description": "assets/photos/111/2-description.png",
         "src": "assets/photos/111/2.jpg",
         "prize": 2,
-        "descriptionSrc": "assets/description/111/2.mp3"
+        "descriptionSrc": "assets/description/111/2.mp3",
+        "photoTag": 2
       },
       {
-        "title": "",
-        "author": "",
-        "description": "",
+        "title": "assets/photos/111/3-title.png",
+        "author": "assets/photos/111/3-author.png",
+        "description": "assets/photos/111/3-description.png",
         "src": "assets/photos/111/3.jpg",
         "prize": 3,
-        "descriptionSrc": "assets/description/111/3.mp3"
+        "descriptionSrc": "assets/description/111/3.mp3",
+        "photoTag": 3
       },
       {
-        "title": "",
-        "author": "",
-        "description": "",
+        "title": "assets/photos/111/4-title.png",
+        "author": "assets/photos/111/4-author.png",
+        "description": "assets/photos/111/4-description.png",
         "src": "assets/photos/111/4.jpg",
         "prize": 4,
-        "descriptionSrc": "assets/description/111/4.mp3"
+        "descriptionSrc": "assets/description/111/4.mp3",
+        "photoTag": 4
       },
       {
-        "title": "",
-        "author": "",
-        "description": "",
+        "title": "assets/photos/111/5-title.png",
+        "author": "assets/photos/111/5-author.png",
+        "description": "assets/photos/111/5-description.png",
         "src": "assets/photos/111/5.jpg",
         "prize": 5,
-        "descriptionSrc": "assets/description/111/5.mp3"
+        "descriptionSrc": "assets/description/111/5.mp3",
+        "photoTag": 5
       },
       {
-        "title": "",
-        "author": "",
-        "description": "",
+        "title": "assets/photos/111/6-title.png",
+        "author": "assets/photos/111/6-author.png",
+        "description": "assets/photos/111/7-description.png",
         "src": "assets/photos/111/6.jpg",
         "prize": 6,
-        "descriptionSrc": "assets/description/111/6.mp3"
+        "descriptionSrc": "assets/description/111/6.mp3",
+        "photoTag": 6
+      },
+      {
+        "title": "assets/photos/111/7-title.png",
+        "author": "assets/photos/111/7-author.png",
+        "description": "assets/photos/111/7-description.png",
+        "src": "assets/photos/111/7.jpg",
+        "prize": 7,
+        "descriptionSrc": "assets/description/111/7.mp3",
+        "photoTag": 7
+      },
+      {
+        "title": "assets/photos/111/8-title.png",
+        "author": "assets/photos/111/8-author.png",
+        "description": "assets/photos/111/8-description.png",
+        "src": "assets/photos/111/8.jpg",
+        "prize": 8,
+        "descriptionSrc": "assets/description/111/8.mp3",
+        "photoTag": 8
+      },
+      {
+        "title": "assets/photos/111/9-title.png",
+        "author": "assets/photos/111/9-author.png",
+        "description": "assets/photos/111/9-description.png",
+        "src": "assets/photos/111/9.jpg",
+        "prize": 9,
+        "descriptionSrc": "assets/description/111/9.mp3",
+        "photoTag": 9
+      },
+      {
+        "title": "assets/photos/111/10-title.png",
+        "author": "assets/photos/111/10-author.png",
+        "description": "assets/photos/111/10-description.png",
+        "src": "assets/photos/111/10.jpg",
+        "prize": 10,
+        "descriptionSrc": "assets/description/111/10.mp3",
+        "photoTag": 10
+      },
+      {
+        "title": "assets/photos/111/11-title.png",
+        "author": "assets/photos/111/11-author.png",
+        "description": "assets/photos/111/11-description.png",
+        "src": "assets/photos/111/11.jpg",
+        "prize": 11,
+        "descriptionSrc": "assets/description/111/11.mp3",
+        "photoTag": 11
+      },
+      {
+        "title": "assets/photos/111/12-title.png",
+        "author": "assets/photos/111/12-author.png",
+        "description": "assets/photos/111/12-description.png",
+        "src": "assets/photos/111/12.jpg",
+        "prize": 12,
+        "descriptionSrc": "assets/description/111/12.mp3",
+        "photoTag": 12
+      },
+      {
+        "title": "assets/photos/111/13-title.png",
+        "author": "assets/photos/111/13-author.png",
+        "description": "assets/photos/111/13-description.png",
+        "src": "assets/photos/111/13.jpg",
+        "prize": 13,
+        "descriptionSrc": "assets/description/111/13.mp3",
+        "photoTag": 13
+      },
+      {
+        "title": "assets/photos/111/14-title.png",
+        "author": "assets/photos/111/14-author.png",
+        "description": "assets/photos/111/14-description.png",
+        "src": "assets/photos/111/14.jpg",
+        "prize": 14,
+        "descriptionSrc": "assets/description/111/14.mp3",
+        "photoTag": 14
+      },
+      {
+        "title": "assets/photos/111/15-title.png",
+        "author": "assets/photos/111/15-author.png",
+        "description": "assets/photos/111/15-description.png",
+        "src": "assets/photos/111/15.jpg",
+        "prize": 15,
+        "descriptionSrc": "assets/description/111/15.mp3",
+        "photoTag": 15
+      },
+      {
+        "title": "assets/photos/111/16-title.png",
+        "author": "assets/photos/111/16-author.png",
+        "description": "assets/photos/111/16-description.png",
+        "src": "assets/photos/111/16.jpg",
+        "prize": 16,
+        "descriptionSrc": "assets/description/111/16.mp3",
+        "photoTag": 16
+      },
+      {
+        "title": "assets/photos/111/17-title.png",
+        "author": "assets/photos/111/17-author.png",
+        "description": "assets/photos/111/17-description.png",
+        "src": "assets/photos/111/17.jpg",
+        "prize": 17,
+        "descriptionSrc": "assets/description/111/17.mp3",
+        "photoTag": 17
+      },
+      {
+        "title": "assets/photos/111/18-title.png",
+        "author": "assets/photos/111/18-author.png",
+        "description": "assets/photos/111/18-description.png",
+        "src": "assets/photos/111/18.jpg",
+        "prize": 18,
+        "descriptionSrc": "assets/description/111/18.mp3",
+        "photoTag": 18
       }
     ],
     "autoPlay": "assets/videos/111/autoPlay.mp4"
@@ -55,52 +169,166 @@
   "112": {
     "photos": [
       {
-        "title": "",
-        "author": "",
-        "description": "",
+        "title": "assets/photos/112/1-title.png",
+        "author": "assets/photos/112/1-author.png",
+        "description": "assets/photos/112/1-description.png",
         "src": "assets/photos/112/1.jpg",
         "prize": 1,
-        "descriptionSrc": "assets/description/112/1.mp3"
+        "descriptionSrc": "assets/description/112/1.mp3",
+        "photoTag": 1
       },
       {
-        "title": "",
-        "author": "",
-        "description": "",
+        "title": "assets/photos/112/2-title.png",
+        "author": "assets/photos/112/2-author.png",
+        "description": "assets/photos/112/2-description.png",
         "src": "assets/photos/112/2.jpg",
         "prize": 2,
-        "descriptionSrc": "assets/description/112/2.mp3"
+        "descriptionSrc": "assets/description/112/2.mp3",
+        "photoTag": 2
       },
       {
-        "title": "",
-        "author": "",
-        "description": "",
+        "title": "assets/photos/112/3-title.png",
+        "author": "assets/photos/112/3-author.png",
+        "description": "assets/photos/112/3-description.png",
         "src": "assets/photos/112/3.jpg",
         "prize": 3,
-        "descriptionSrc": "assets/description/112/3.mp3"
+        "descriptionSrc": "assets/description/112/3.mp3",
+        "photoTag": 2
       },
       {
-        "title": "",
-        "author": "",
-        "description": "",
+        "title": "assets/photos/112/4-title.png",
+        "author": "assets/photos/112/4-author.png",
+        "description": "assets/photos/112/4-description.png",
         "src": "assets/photos/112/4.jpg",
         "prize": 4,
-        "descriptionSrc": "assets/description/112/4.mp3"
+        "descriptionSrc": "assets/description/112/4.mp3",
+        "photoTag": 3
       },
       {
-        "title": "",
-        "author": "",
-        "description": "",
+        "title": "assets/photos/112/5-title.png",
+        "author": "assets/photos/112/5-author.png",
+        "description": "assets/photos/112/5-description.png",
         "src": "assets/photos/112/5.jpg",
         "prize": 5,
-        "descriptionSrc": "assets/description/112/5.mp3"
+        "descriptionSrc": "assets/description/112/5.mp3",
+        "photoTag": 3
       },
       {
-        "title": "",
-        "author": "",
-        "description": "",
+        "title": "assets/photos/112/6-title.png",
+        "author": "assets/photos/112/6-author.png",
+        "description": "assets/photos/112/6-description.png",
         "src": "assets/photos/112/6.jpg",
         "prize": 6,
-        "descriptionSrc": "assets/description/112/6.mp3"
+        "descriptionSrc": "assets/description/112/6.mp3",
+        "photoTag": 6
+      },
+      {
+        "title": "assets/photos/112/7-title.png",
+        "author": "assets/photos/112/7-author.png",
+        "description": "assets/photos/112/7-description.png",
+        "src": "assets/photos/112/7.jpg",
+        "prize": 7,
+        "descriptionSrc": "assets/description/112/7.mp3",
+        "photoTag": 7
+      },
+      {
+        "title": "assets/photos/112/8-title.png",
+        "author": "assets/photos/112/8-author.png",
+        "description": "assets/photos/112/8-description.png",
+        "src": "assets/photos/112/8.jpg",
+        "prize": 8,
+        "descriptionSrc": "assets/description/112/8.mp3",
+        "photoTag": 8
+      },
+      {
+        "title": "assets/photos/112/9-title.png",
+        "author": "assets/photos/112/9-author.png",
+        "description": "assets/photos/112/9-description.png",
+        "src": "assets/photos/112/9.jpg",
+        "prize": 9,
+        "descriptionSrc": "assets/description/112/9.mp3",
+        "photoTag": 9
+      },
+      {
+        "title": "assets/photos/112/10-title.png",
+        "author": "assets/photos/112/10-author.png",
+        "description": "assets/photos/112/10-description.png",
+        "src": "assets/photos/112/10.jpg",
+        "prize": 10,
+        "descriptionSrc": "assets/description/112/10.mp3",
+        "photoTag": 10
+      },
+      {
+        "title": "assets/photos/112/11-title.png",
+        "author": "assets/photos/112/11-author.png",
+        "description": "assets/photos/112/11-description.png",
+        "src": "assets/photos/112/11.jpg",
+        "prize": 11,
+        "descriptionSrc": "assets/description/112/11.mp3",
+        "photoTag": 11
+      },
+      {
+        "title": "assets/photos/112/12-title.png",
+        "author": "assets/photos/112/12-author.png",
+        "description": "assets/photos/112/12-description.png",
+        "src": "assets/photos/112/12.jpg",
+        "prize": 12,
+        "descriptionSrc": "assets/description/112/12.mp3",
+        "photoTag": 12
+      },
+      {
+        "title": "assets/photos/112/13-title.png",
+        "author": "assets/photos/112/13-author.png",
+        "description": "assets/photos/112/13-description.png",
+        "src": "assets/photos/112/13.jpg",
+        "prize": 13,
+        "descriptionSrc": "assets/description/112/13.mp3",
+        "photoTag": 13
+      },
+      {
+        "title": "assets/photos/112/14-title.png",
+        "author": "assets/photos/112/14-author.png",
+        "description": "assets/photos/112/14-description.png",
+        "src": "assets/photos/112/14.jpg",
+        "prize": 14,
+        "descriptionSrc": "assets/description/112/14.mp3",
+        "photoTag": 14
+      },
+      {
+        "title": "assets/photos/112/15-title.png",
+        "author": "assets/photos/112/15-author.png",
+        "description": "assets/photos/112/15-description.png",
+        "src": "assets/photos/112/15.jpg",
+        "prize": 15,
+        "descriptionSrc": "assets/description/112/15.mp3",
+        "photoTag": 15
+      },
+      {
+        "title": "assets/photos/112/16-title.png",
+        "author": "assets/photos/112/16-author.png",
+        "description": "assets/photos/112/16-description.png",
+        "src": "assets/photos/112/16.jpg",
+        "prize": 16,
+        "descriptionSrc": "assets/description/112/16.mp3",
+        "photoTag": 16
+      },
+      {
+        "title": "assets/photos/112/17-title.png",
+        "author": "assets/photos/112/17-author.png",
+        "description": "assets/photos/112/17-description.png",
+        "src": "assets/photos/112/17.jpg",
+        "prize": 17,
+        "descriptionSrc": "assets/description/112/17.mp3",
+        "photoTag": 17
+      },
+      {
+        "title": "assets/photos/112/18-title.png",
+        "author": "assets/photos/112/18-author.png",
+        "description": "assets/photos/112/18-description.png",
+        "src": "assets/photos/112/18.jpg",
+        "prize": 18,
+        "descriptionSrc": "assets/description/112/18.mp3",
+        "photoTag": 18
       }
     ],
     "autoPlay": "assets/videos/112/autoPlay.mp4"

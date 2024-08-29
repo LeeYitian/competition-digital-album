@@ -71,7 +71,6 @@ const Detail = () => {
   const point = useRef({ x: 0, y: 0 });
   const start = useRef({ x: 0, y: 0 });
   const isPanning = useRef(false);
-  const containerRef = useRef<HTMLDivElement | null>(null);
   const noteRef = useRef<HTMLDivElement>(null);
   const photoTagRef = useRef<HTMLDivElement>(null);
   const descriptionRef = useRef<HTMLDivElement>(null);
@@ -111,6 +110,7 @@ const Detail = () => {
       point.current = { x: 0, y: 0 };
       return;
     }
+
     photoRef.current.style.transform = `translate(${point.current.x}px, ${point.current.y}px) scale(${scale.current})`;
   }, [photoRef, point, scale]);
 
@@ -173,14 +173,35 @@ const Detail = () => {
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
       e.preventDefault();
-      if (!isPanning.current) return;
+      if (!isPanning.current || !photoRef.current || !noteRef.current) return;
+
+      const imageWidth = photoRef.current.clientWidth;
+      const imageHeight = photoRef.current.clientHeight;
+      const noteWidth = noteRef.current.clientWidth;
+      const noteHeight = noteRef.current.clientHeight;
+
+      // 計算縮放後圖片的大小
+      const scaledWidth = imageWidth * scale.current;
+      const scaledHeight = imageHeight * scale.current;
+
+      // 計算可移動的最大範圍
+      const maxX = (scaledWidth - imageWidth) / 2;
+      const maxY = (scaledHeight - imageHeight) / 2;
+      const minX = -(scaledWidth - noteWidth) / 2;
+      const minY = -(scaledHeight - noteHeight) / 2;
+      // 計算新位置
+      const newX = e.clientX - start.current.x;
+      const newY = e.clientY - start.current.y;
+
+      // 限制圖片移動範圍
       point.current = {
-        x: e.clientX - start.current.x,
-        y: e.clientY - start.current.y,
+        x: Math.min(maxX, Math.max(minX, newX)),
+        y: Math.min(maxY, Math.max(minY, newY)),
       };
+
       setTransform();
     },
-    [isPanning, point, setTransform]
+    [isPanning, point, scale, photoRef, noteRef, setTransform]
   );
 
   const handleSideButtonClick = useCallback(
@@ -196,6 +217,11 @@ const Detail = () => {
       point.current = { x: 0, y: 0 };
       scale.current = 1;
       start.current = { x: 0, y: 0 };
+
+      if (id === currentFunction) {
+        setCurrentFunction("");
+        return;
+      }
 
       switch (id) {
         case SideButtonFunction.Zoom:
@@ -226,6 +252,7 @@ const Detail = () => {
       point,
       start,
       scale,
+      currentFunction,
       handleZoom,
       handleMouseDown,
       handleMouseUp,
@@ -300,7 +327,7 @@ const Detail = () => {
   };
 
   return (
-    <StyledBackground ref={containerRef}>
+    <StyledBackground>
       <PhotoNote ref={noteRef}>
         <ImageContainer $useFlip={currentFunction === SideButtonFunction.Flip}>
           <img
@@ -358,7 +385,7 @@ const Detail = () => {
             ))}
           </HTMLFlipBook>
         )}
-        <PhotoTag $prize={photo.prize} ref={photoTagRef} />
+        <PhotoTag $prize={photo.photoTag} ref={photoTagRef} />
         {sideButton.map(({ icon, text, color, id }, index) => (
           <DetailSideButton
             key={text}
