@@ -11,6 +11,7 @@ const Opening = () => {
           id="opening"
           src={videoSrc}
           autoPlay
+          loop
           width="95%"
           preload="auto"
         />

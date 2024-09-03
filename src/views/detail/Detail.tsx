@@ -1,6 +1,7 @@
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
+import WZoom from "vanilla-js-wheel-zoom";
 import {
   AuthorBanner,
   Description,
@@ -67,11 +68,8 @@ const Detail = () => {
   }
   const [noteText, setNoteText] = useState("");
   const photoRef = useRef<HTMLImageElement>(null);
-  const scale = useRef(1);
-  const point = useRef({ x: 0, y: 0 });
-  const start = useRef({ x: 0, y: 0 });
-  const isPanning = useRef(false);
   const noteRef = useRef<HTMLDivElement>(null);
+  const wzoom = useRef(null);
   const photoTagRef = useRef<HTMLDivElement>(null);
   const descriptionRef = useRef<HTMLDivElement>(null);
   const titleBannerRef = useRef<HTMLDivElement>(null);
@@ -95,128 +93,28 @@ const Detail = () => {
   });
 
   useEffect(() => {
-    const rememberedText =
-      storedTexts === null || !storedTexts[year][photo.prize]
-        ? "點擊兩下開始編輯"
-        : storedTexts[year][photo.prize];
+    let rememberedText = "點擊兩下開始編輯";
+    if (storedTexts && storedTexts[year]?.[photo.prize] !== undefined) {
+      rememberedText = storedTexts[year][photo.prize];
+    }
     setNoteText(rememberedText);
   }, [currentPage, photo, year, storedTexts]);
 
-  const setTransform = useCallback(() => {
-    if (!photoRef.current || !noteRef.current) return;
-
-    if (scale.current === 1) {
-      photoRef.current.style.transform = "none";
-      point.current = { x: 0, y: 0 };
-      return;
-    }
-
-    photoRef.current.style.transform = `translate(${point.current.x}px, ${point.current.y}px) scale(${scale.current})`;
-  }, [photoRef, point, scale]);
-
-  const handleZoom = useCallback(
-    (e: WheelEvent) => {
-      e.preventDefault();
-      if (!photoRef.current || !noteRef.current) return;
-
-      // 限制縮放範圍
-      if (
-        (e.deltaY < 0 && scale.current >= 4) ||
-        (e.deltaY > 0 && scale.current <= 1)
-      )
-        return;
-      const paddingLeft = parseInt(
-        getComputedStyle(noteRef.current).paddingLeft
-      );
-      const paddingTop = parseInt(getComputedStyle(noteRef.current).paddingTop);
-      const xs =
-        (e.offsetX -
-          point.current.x +
-          (e.deltaY < 0 ? paddingLeft * -1 : paddingLeft * 1)) /
-        scale.current;
-      const ys =
-        (e.offsetY -
-          point.current.y +
-          (e.deltaY < 0 ? paddingTop * -1 : paddingTop * 1)) /
-        scale.current;
-
-      if (e.deltaY > 0) {
-        scale.current /= 1.2;
-      } else {
-        scale.current *= 1.2;
-      }
-
-      point.current = {
-        x: e.offsetX - xs * scale.current,
-        y: e.offsetY - ys * scale.current,
-      };
-      setTransform();
-    },
-    [photoRef, noteRef, point, setTransform]
-  );
-  const handleMouseDown = useCallback(
-    (e: MouseEvent) => {
-      e.preventDefault();
-      if (!photoRef.current) return;
-      start.current = {
-        x: e.clientX - point.current.x,
-        y: e.clientY - point.current.y,
-      };
-      isPanning.current = true;
-    },
-    [photoRef, start, isPanning]
-  );
-  const handleMouseUp = useCallback(() => {
-    if (!photoRef.current) return;
-    isPanning.current = false;
-  }, [photoRef, isPanning]);
-  const handleMouseMove = useCallback(
-    (e: MouseEvent) => {
-      e.preventDefault();
-      if (!isPanning.current || !photoRef.current || !noteRef.current) return;
-
-      const imageWidth = photoRef.current.clientWidth;
-      const imageHeight = photoRef.current.clientHeight;
-      const noteWidth = noteRef.current.clientWidth;
-      const noteHeight = noteRef.current.clientHeight;
-
-      // 計算縮放後圖片的大小
-      const scaledWidth = imageWidth * scale.current;
-      const scaledHeight = imageHeight * scale.current;
-
-      // 計算可移動的最大範圍
-      const maxX = (scaledWidth - imageWidth) / 2;
-      const maxY = (scaledHeight - imageHeight) / 2;
-      const minX = -(scaledWidth - noteWidth) / 2;
-      const minY = -(scaledHeight - noteHeight) / 2;
-      // 計算新位置
-      const newX = e.clientX - start.current.x;
-      const newY = e.clientY - start.current.y;
-
-      // 限制圖片移動範圍
-      point.current = {
-        x: Math.min(maxX, Math.max(minX, newX)),
-        y: Math.min(maxY, Math.max(minY, newY)),
-      };
-
-      setTransform();
-    },
-    [isPanning, point, scale, photoRef, noteRef, setTransform]
-  );
-
   const handleSideButtonClick = useCallback(
     (id: SideButtonFunction) => {
-      if (!photoRef.current) return;
-      setCurrentFunction(id);
-      photoRef.current.removeEventListener("wheel", handleZoom);
-      photoRef.current.removeEventListener("mousedown", handleMouseDown);
-      photoRef.current.removeEventListener("mouseup", handleMouseUp);
-      photoRef.current.removeEventListener("mousemove", handleMouseMove);
+      if (!photoRef.current || !audioRef.current || !noteRef.current) return;
 
-      photoRef.current.style.transform = "none";
-      point.current = { x: 0, y: 0 };
-      scale.current = 1;
-      start.current = { x: 0, y: 0 };
+      setCurrentFunction(id);
+
+      if (wzoom.current !== null) {
+        // @ts-expect-error wzoom.current.destroy() is not typed, but it's a valid method
+        wzoom.current.destroy();
+        wzoom.current = null;
+      }
+
+      if (id === SideButtonFunction.Read && !audioRef.current.paused) {
+        audioRef.current.pause();
+      }
 
       if (id === currentFunction) {
         setCurrentFunction("");
@@ -224,19 +122,24 @@ const Detail = () => {
       }
 
       switch (id) {
-        case SideButtonFunction.Zoom:
-          photoRef.current.addEventListener("wheel", handleZoom);
-          photoRef.current.addEventListener("mousedown", handleMouseDown);
-          photoRef.current.addEventListener("mouseup", handleMouseUp);
-          photoRef.current.addEventListener("mousemove", handleMouseMove);
+        case SideButtonFunction.Zoom: {
+          const rect = photoRef.current.getBoundingClientRect();
+          wzoom.current = WZoom.create("#photo", {
+            type: "html",
+            width: rect.width || 500,
+            height: rect.height || 500,
+            zoomOnClick: false,
+            maxScale: 4,
+            smoothTimeDrag: 0,
+            smoothTime: 0,
+          });
+          console.log("wzoom.current", wzoom.current);
           break;
+        }
         case SideButtonFunction.Read:
           if (audioRef.current) {
-            audioRef.current.paused
-              ? audioRef.current.play()
-              : audioRef.current.pause();
+            audioRef.current.play();
           }
-
           break;
         case SideButtonFunction.Flip:
           break;
@@ -246,19 +149,7 @@ const Detail = () => {
           break;
       }
     },
-    [
-      photoRef,
-      audioRef,
-      point,
-      start,
-      scale,
-      currentFunction,
-      handleZoom,
-      handleMouseDown,
-      handleMouseUp,
-      handleMouseMove,
-      setCurrentFunction,
-    ]
+    [photoRef, audioRef, noteRef, currentFunction, setCurrentFunction]
   );
 
   const flipWidth = useMemo(() => {
@@ -315,15 +206,14 @@ const Detail = () => {
 
   const saveNoteText = (value: string) => {
     setNoteText(value);
-    if (storedTexts === null) {
-      sessionStorage.setItem(
-        "note",
-        JSON.stringify({ [year]: { [photo.prize]: value } })
-      );
-    } else {
-      storedTexts[year][photo.prize] = value;
-      sessionStorage.setItem("note", JSON.stringify(storedTexts));
-    }
+    const updatedTexts = {
+      ...(storedTexts || {}), // 如果 storedTexts 為 null，則使用空物件
+      [year]: {
+        ...(storedTexts?.[year] || {}), // 如果 storedTexts[year] 為 undefined，則使用空物件
+        [photo.prize]: value,
+      },
+    };
+    sessionStorage.setItem("note", JSON.stringify(updatedTexts));
   };
 
   return (
@@ -331,6 +221,7 @@ const Detail = () => {
       <PhotoNote ref={noteRef}>
         <ImageContainer $useFlip={currentFunction === SideButtonFunction.Flip}>
           <img
+            id="photo"
             ref={photoRef}
             src={`${import.meta.env.BASE_URL}${photo.src}`}
             alt="作品"

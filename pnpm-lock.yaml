@@ -18,6 +18,7 @@ specifiers:
   react-router-dom: ^6.26.0
   styled-components: ^6.1.12
   typescript: ^5.2.2
+  vanilla-js-wheel-zoom: ^9.0.2
   vite: ^5.3.4
 
 dependencies:
@@ -28,6 +29,7 @@ dependencies:
   react-pageflip: 2.0.3
   react-router-dom: 6.26.0_nnrd3gsncyragczmpvfhocinkq
   styled-components: 6.1.12_nnrd3gsncyragczmpvfhocinkq
+  vanilla-js-wheel-zoom: 9.0.2
 
 devDependencies:
   '@types/node': 22.2.0
@@ -2004,6 +2006,10 @@ packages:
     dependencies:
       punycode: 2.3.1
     dev: true
+
+  /vanilla-js-wheel-zoom/9.0.2:
+    resolution: {integrity: sha512-GleJm/qTDcfQC7gdFH4BT5vCZmnz2LOTgLAQ5CCCwftFC/zrBURRWr5Y7jRPi3W3rRf8bTIAN3hLZYFqvK5jwA==}
+    dev: false
 
   /vite/5.3.5_@types+node@22.2.0:
     resolution: {integrity: sha512-MdjglKR6AQXQb9JGiS7Rc2wC6uMjcm7Go/NHNO63EwiJXfuk9PgqiP/n5IDJCziMkfw9n4Ubp7lttNwz+8ZVKA==}

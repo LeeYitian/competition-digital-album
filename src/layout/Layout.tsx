@@ -66,7 +66,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   }, [selectedMusic, navigator.userActivation.isActive]);
 
   const handlePrevClick = useCallback(() => {
-    const targetPage = currentPage - 1 > 1 ? currentPage - 1 : 1;
+    const targetPage = currentPage - 1 >= 1 ? currentPage - 1 : totalPages;
 
     switch (path) {
       case "ranking":
@@ -91,8 +91,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   }, [path, currentPage, year, navigate]);
 
   const handleNextClick = useCallback(() => {
-    const targetPage =
-      currentPage + 1 < totalPages ? currentPage + 1 : totalPages;
+    const targetPage = currentPage + 1 < totalPages ? currentPage + 1 : 1;
 
     switch (path) {
       case "ranking":
@@ -147,14 +146,16 @@ const Layout = ({ children }: { children: ReactNode }) => {
       {showSideArrow(pathname) && (
         <SideArrowButton
           $flip={false}
-          $disabled={currentPage === 1}
+          // $disabled={currentPage === 1}
+          $disabled={false}
           onClick={() => handlePrevClick()}
         />
       )}
       {showSideArrow(pathname) && (
         <SideArrowButton
           $flip={true}
-          $disabled={currentPage === totalPages}
+          // $disabled={currentPage === totalPages}
+          $disabled={false}
           onClick={() => handleNextClick()}
         />
       )}

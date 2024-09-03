@@ -32,10 +32,22 @@ const StickyNote = ({ text, setText }: TStickyNote) => {
             value={text}
             onFocus={(e) => e.currentTarget.select()}
             onChange={(e) => setText(e.target.value)}
-            onBlur={() => setTyping(false)}
+            onBlur={(e) => {
+              setTyping(false);
+              if (e.target.value === "") setText("點擊兩下開始編輯");
+            }}
           />
         ) : (
-          <StyledDiv onDoubleClick={() => setTyping(true)}>{text}</StyledDiv>
+          <StyledDiv
+            onDoubleClick={() => {
+              setTyping(true);
+              if (text === "點擊兩下開始編輯") {
+                setText("");
+              }
+            }}
+          >
+            {text}
+          </StyledDiv>
         )}
       </Note>
     </Draggable>
