@@ -1,6 +1,11 @@
+@font-face {
+  font-family: 'MyFont';
+  src: url('/assets/GenSenRounded-B.ttc') format('truetype');
+}
+
 :root {
   /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; */
-  font-family: "M PLUS Rounded 1c", sans-serif;
+  font-family: "MyFont", sans-serif;
   line-height: 1.5;
   font-weight: 700;
 
