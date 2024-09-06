@@ -9,6 +9,7 @@ import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import MainMenu from "@/components/MainMenu/MainMenu";
 import MusicDialog from "@/components/MusicDialog/MusicDialog";
 import MusicList from "~/assets/music.json";
+import { useFlipBook } from "@/context/FlipBookContext";
 
 const showMainMenu = (pathname: string) => {
   return pathname !== "/opening";
@@ -24,6 +25,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const { pathname } = location;
   const path = pathname.split("/")[1];
   const { totalPages, currentPage, year } = useLoaderData();
+  const {
+    flipBook: { flipBookEl },
+  } = useFlipBook();
   const [openMenu, setOpenMenu] = useState(false);
   const [selectedMusic, setSelectedMusic] = useState(MusicList[0].src);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -73,7 +77,18 @@ const Layout = ({ children }: { children: ReactNode }) => {
         navigate(`/ranking/${year}/${targetPage}`);
         break;
       case "detail":
-        navigate(`/detail/${year}/${targetPage}`);
+        if (!flipBookEl) {
+          navigate(`/detail/${year}/${targetPage}`);
+          return;
+        }
+
+        if (targetPage === totalPages) {
+          // @ts-expect-error pageFlip() is not typed, but it's a valid method
+          flipBookEl && flipBookEl.pageFlip().flip(targetPage - 1);
+        } else {
+          // @ts-expect-error pageFlip() is not typed, but it's a valid method
+          flipBookEl && flipBookEl.pageFlip().flipPrev();
+        }
         break;
       case "autoPlay": {
         const videoEl = document.getElementById("autoPlay") as HTMLVideoElement;
@@ -88,17 +103,27 @@ const Layout = ({ children }: { children: ReactNode }) => {
       default:
         return;
     }
-  }, [path, currentPage, year, navigate]);
+  }, [path, currentPage, year, navigate, totalPages, flipBookEl]);
 
   const handleNextClick = useCallback(() => {
-    const targetPage = currentPage + 1 < totalPages ? currentPage + 1 : 1;
+    const targetPage = currentPage + 1 <= totalPages ? currentPage + 1 : 1;
 
     switch (path) {
       case "ranking":
         navigate(`/ranking/${year}/${targetPage}`);
         break;
       case "detail":
-        navigate(`/detail/${year}/${targetPage}`);
+        if (!flipBookEl) {
+          navigate(`/detail/${year}/${targetPage}`);
+          return;
+        }
+        if (targetPage === 1) {
+          // @ts-expect-error pageFlip() is not typed, but it's a valid method
+          flipBookEl && flipBookEl.pageFlip().flip(targetPage - 1);
+        } else {
+          // @ts-expect-error pageFlip() is not typed, but it's a valid method
+          flipBookEl && flipBookEl.pageFlip().flipNext();
+        }
         break;
       case "autoPlay": {
         const videoEl = document.getElementById("autoPlay") as HTMLVideoElement;
@@ -113,7 +138,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       default:
         return;
     }
-  }, [path, currentPage, year, navigate, totalPages]);
+  }, [path, currentPage, year, navigate, totalPages, flipBookEl]);
 
   // const flagDecoration = useMemo(() => {
   //   switch (path) {

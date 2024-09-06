@@ -14,6 +14,7 @@ const Opening = () => {
           loop
           width="95%"
           preload="auto"
+          muted
         />
         <SkipButton onClick={() => navigate("/main")} />
       </VideoContainer>

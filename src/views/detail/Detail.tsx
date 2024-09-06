@@ -14,6 +14,7 @@ import {
 } from "@/views/detail/Detail.style";
 import { TPhoto } from "../ranking/Ranking";
 import StickyNote from "@/components/StickyNote/StickNote";
+import { useFlipBook } from "@/context/FlipBookContext";
 
 enum SideButtonFunction {
   Zoom = "zoom",
@@ -53,6 +54,7 @@ const sideButton = [
 const Detail = () => {
   const { data: photo, allPhotos, year, currentPage } = useLoaderData();
   const navigate = useNavigate();
+  const { dispatch } = useFlipBook();
   const [showButtonText, setShowButtonText] = useState(true);
   const [currentFunction, setCurrentFunction] = useState("");
   let storedTexts: Record<string, Record<string, string>> | null = null;
@@ -132,8 +134,12 @@ const Detail = () => {
             maxScale: 4,
             smoothTimeDrag: 0,
             smoothTime: 0,
+            // dragScrollable: false,
+            // 以下三個 options 不是 undefined 才能在 nw.js 中順利拖曳
+            onGrab: () => {},
+            onMove: () => {},
+            onDrop: () => {},
           });
-          console.log("wzoom.current", wzoom.current);
           break;
         }
         case SideButtonFunction.Read:
@@ -151,6 +157,15 @@ const Detail = () => {
     },
     [photoRef, audioRef, noteRef, currentFunction, setCurrentFunction]
   );
+
+  useEffect(() => {
+    if (flipBookRef.current) {
+      dispatch({ type: "setFlipBook", payload: flipBookRef.current });
+    }
+    return () => {
+      dispatch({ type: "deleteFlipBook" });
+    };
+  }, [flipBookRef, dispatch, currentFunction]);
 
   const flipWidth = useMemo(() => {
     if (!noteRef.current) return 700;
