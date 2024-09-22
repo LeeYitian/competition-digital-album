@@ -52,7 +52,7 @@ export const PhotoTag = styled.div<{ $prize: number }>`
 export const Description = styled.div<{ $url: string }>`
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: calc(-2 * var(--vw));
   background-image: ${({ $url }) =>
     `url("${import.meta.env.BASE_URL}${$url}")`};
   background-size: contain;
