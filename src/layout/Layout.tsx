@@ -12,11 +12,17 @@ import MusicList from "~/assets/music.json";
 import { useFlipBook } from "@/context/FlipBookContext";
 
 const showMainMenu = (pathname: string) => {
-  return pathname !== "/opening";
+  return pathname !== "/opening" && pathname !== "/main";
 };
 
 const showSideArrow = (pathname: string) => {
   return pathname !== "/opening" && pathname !== "/main";
+};
+
+const defaultMusic: { [key: string]: string } = {
+  "/main": MusicList.find((item) => item.title === "國旗歌")!.src,
+  "/ranking/111": MusicList.find((item) => item.title === "勇士進行曲")!.src,
+  "/ranking/112": MusicList.find((item) => item.title === "英雄好漢")!.src,
 };
 
 const Layout = ({ children }: { children: ReactNode }) => {
@@ -29,9 +35,10 @@ const Layout = ({ children }: { children: ReactNode }) => {
     flipBook: { flipBookEl },
   } = useFlipBook();
   const [openMenu, setOpenMenu] = useState(false);
-  const [selectedMusic, setSelectedMusic] = useState(MusicList[0].src);
+  const [selectedMusic, setSelectedMusic] = useState("");
   const audioRef = useRef<HTMLAudioElement>(null);
   const [openMusicDialog, setOpenMusicDialog] = useState(false);
+  const [isDefaultMusic, setIsDefaultMusic] = useState(true);
 
   useEffect(() => {
     setOpenMenu(false);
@@ -68,6 +75,19 @@ const Layout = ({ children }: { children: ReactNode }) => {
       audioRef.current.play();
     }
   }, [selectedMusic, navigator.userActivation.isActive]);
+
+  useEffect(() => {
+    if (pathname === "/main") {
+      setSelectedMusic(defaultMusic[pathname]);
+      setIsDefaultMusic(true);
+    }
+    if (pathname.includes("/ranking") && year === "111" && isDefaultMusic) {
+      setSelectedMusic(defaultMusic[pathname.split("/").slice(0, 3).join("/")]);
+    }
+    if (pathname.includes("/ranking") && year === "112" && isDefaultMusic) {
+      setSelectedMusic(defaultMusic[pathname.split("/").slice(0, 3).join("/")]);
+    }
+  }, [pathname, year, setSelectedMusic, isDefaultMusic]);
 
   const handlePrevClick = useCallback(() => {
     const targetPage = currentPage - 1 >= 1 ? currentPage - 1 : totalPages;
@@ -199,6 +219,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
           musicList={MusicList}
           selectedMusic={selectedMusic}
           setSelectedMusic={setSelectedMusic}
+          setIsDefaultMusic={setIsDefaultMusic}
         />
       )}
       <audio ref={audioRef} loop autoPlay />

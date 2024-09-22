@@ -1,7 +1,7 @@
 import { createHashRouter, Navigate, redirect } from "react-router-dom";
 import PhotoConstants from "~/assets/photos.json";
-import OpeningSrc from "~/assets/opening.json";
-import Opening from "@/views/opening/Opening";
+// import OpeningSrc from "~/assets/opening.json";
+// import Opening from "@/views/opening/Opening";
 import Layout from "@/layout/Layout";
 import Menu from "@/views/menu/Menu";
 import Ranking from "@/views/ranking/Ranking";
@@ -30,27 +30,27 @@ type TAutoPlayParams = {
 const router = createHashRouter([
   {
     path: "*",
-    element: <Navigate to="/opening" replace />,
+    element: <Navigate to="/main" replace />,
     errorElement: <Navigate to="/main" replace />,
   },
-  {
-    path: "/opening",
-    loader: () => {
-      const openingSrc = OpeningSrc.opening;
-      return {
-        totalPages: undefined,
-        page: undefined,
-        year: undefined,
-        data: openingSrc,
-      };
-    },
-    element: (
-      <Layout>
-        <Opening />
-      </Layout>
-    ),
-    errorElement: <Navigate to="/main" replace />,
-  },
+  // {
+  //   path: "/opening",
+  //   loader: () => {
+  //     const openingSrc = OpeningSrc.opening;
+  //     return {
+  //       totalPages: undefined,
+  //       page: undefined,
+  //       year: undefined,
+  //       data: openingSrc,
+  //     };
+  //   },
+  //   element: (
+  //     <Layout>
+  //       <Opening />
+  //     </Layout>
+  //   ),
+  //   errorElement: <Navigate to="/main" replace />,
+  // },
   {
     path: "/main",
     loader: () => ({

@@ -14,12 +14,14 @@ type TMainMenuProps = {
   musicList: { title: string; src: string }[];
   selectedMusic: string;
   setSelectedMusic: Dispatch<SetStateAction<string>>;
+  setIsDefaultMusic: Dispatch<SetStateAction<boolean>>;
 };
 const MusicDialog = ({
   setOpenMusicDialog,
   musicList,
   selectedMusic,
   setSelectedMusic,
+  setIsDefaultMusic,
 }: TMainMenuProps) => {
   return (
     <BackDrop>
@@ -37,6 +39,7 @@ const MusicDialog = ({
             $selected={false}
             onClick={() => {
               setSelectedMusic("");
+              setIsDefaultMusic(false);
             }}
           >
             關閉音樂
@@ -45,7 +48,10 @@ const MusicDialog = ({
             <MusicListItem
               key={item.title}
               $selected={selectedMusic === item.src}
-              onClick={() => setSelectedMusic(item.src)}
+              onClick={() => {
+                setSelectedMusic(item.src);
+                setIsDefaultMusic(false);
+              }}
             >
               {item.title}
             </MusicListItem>

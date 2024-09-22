@@ -4,12 +4,16 @@
     "src": "assets/music/國歌.mp3"
   },
   {
-    "title": "英雄好漢",
-    "src": "assets/music/英雄好漢.mp3"
+    "title": "國旗歌",
+    "src": "assets/music/國旗歌.mp3"
   },
   {
     "title": "勇士進行曲",
     "src": "assets/music/勇士進行曲.mp3"
+  },
+  {
+    "title": "英雄好漢",
+    "src": "assets/music/英雄好漢.mp3"
   },
   {
     "title": "火花",
