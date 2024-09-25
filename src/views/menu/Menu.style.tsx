@@ -28,7 +28,7 @@ export const YearButtonGroup = styled.div`
   width: 80%;
   aspect-ratio: 2/0.5;
   position: relative;
-  top: 10%;
+  top: 8%;
   left: 3%;
   // padding: calc(2 * var(--vw)) 0;
 `;
