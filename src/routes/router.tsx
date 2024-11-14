@@ -1,5 +1,5 @@
 import { createHashRouter, Navigate, redirect } from "react-router-dom";
-import PhotoConstants from "~/assets/photos.json";
+// import PhotoConstants from "~/assets/photos.json";
 // import OpeningSrc from "~/assets/opening.json";
 // import Opening from "@/views/opening/Opening";
 import Layout from "@/layout/Layout";
@@ -26,6 +26,16 @@ type TAutoPlayParams = {
   params: { year: string };
   request: Request;
 };
+
+type TPhoto = {
+  "title": string,
+  "author": string,
+  "description": string,
+  "src": string,
+  "prize": number,
+  "descriptionSrc": string,
+  "photoTag": number
+}
 
 const router = createHashRouter([
   {
@@ -68,10 +78,11 @@ const router = createHashRouter([
   },
   {
     path: "/ranking/:year/:page",
-    loader: ({ params }: TRankingParams) => {
+    loader: async({ params }: TRankingParams) => {
       const { year, page } = params;
       const pageSize = 3;
       const photos = Object.values(
+          //@ts-expect-error declare in global
         PhotoConstants[year as keyof typeof PhotoConstants].photos
       );
 
@@ -100,8 +111,9 @@ const router = createHashRouter([
   },
   {
     path: "/detail/:year/:prize",
-    loader: ({ params }: TDetailParams) => {
+    loader: async({ params }: TDetailParams) => {
       const { year, prize } = params;
+      //@ts-expect-error declare in global
       const photos = PhotoConstants[year as keyof typeof PhotoConstants].photos;
       const totalPages = photos.length;
       const currentPage = parseInt(prize);
@@ -111,7 +123,7 @@ const router = createHashRouter([
         return redirect("/main");
       }
 
-      const photo = photos.find((item) => item.prize === parseInt(prize));
+      const photo = photos.find((item:TPhoto) => item.prize === parseInt(prize));
       return { data: photo, totalPages, currentPage, year, allPhotos: photos };
     },
     element: (
@@ -137,6 +149,7 @@ const router = createHashRouter([
         totalPages: 18,
         currentPage: currentPage,
         year: params.year,
+        //@ts-expect-error declare in global
         data: PhotoConstants[params.year as keyof typeof PhotoConstants]
           .autoPlay,
       };

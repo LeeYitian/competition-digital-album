@@ -14,5 +14,23 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      var MusicList;
+      var PhotoConstants;
+      var defaultMusic;
+      (async() => {
+        const musicRes = await fetch(`/assets/music.json`);
+        MusicList = await musicRes.json();
+
+        defaultMusic = {
+          "/main": MusicList.find((item) => item.title === "國旗歌").src,
+          "/ranking/111": MusicList.find((item) => item.title === "勇士進行曲").src,
+          "/ranking/112": MusicList.find((item) => item.title === "英雄好漢").src,
+        };
+
+        const photoRes = await fetch(`/assets/photos.json`);
+        PhotoConstants = await photoRes.json();
+      })()
+    </script>
   </body>
 </html>

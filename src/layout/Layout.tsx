@@ -8,7 +8,7 @@ import {
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import MainMenu from "@/components/MainMenu/MainMenu";
 import MusicDialog from "@/components/MusicDialog/MusicDialog";
-import MusicList from "~/assets/music.json";
+// import MusicList from "~/assets/music.json";
 import { useFlipBook } from "@/context/FlipBookContext";
 
 const showMainMenu = (pathname: string) => {
@@ -17,12 +17,6 @@ const showMainMenu = (pathname: string) => {
 
 const showSideArrow = (pathname: string) => {
   return pathname !== "/opening" && pathname !== "/main";
-};
-
-const defaultMusic: { [key: string]: string } = {
-  "/main": MusicList.find((item) => item.title === "國旗歌")!.src,
-  "/ranking/111": MusicList.find((item) => item.title === "勇士進行曲")!.src,
-  "/ranking/112": MusicList.find((item) => item.title === "英雄好漢")!.src,
 };
 
 const Layout = ({ children }: { children: ReactNode }) => {
@@ -78,13 +72,16 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (pathname === "/main") {
+      //@ts-expect-error declare in global
       setSelectedMusic(defaultMusic[pathname]);
       setIsDefaultMusic(true);
     }
     if (pathname.includes("/ranking") && year === "111" && isDefaultMusic) {
+      //@ts-expect-error declare in global
       setSelectedMusic(defaultMusic[pathname.split("/").slice(0, 3).join("/")]);
     }
     if (pathname.includes("/ranking") && year === "112" && isDefaultMusic) {
+      //@ts-expect-error declare in global
       setSelectedMusic(defaultMusic[pathname.split("/").slice(0, 3).join("/")]);
     }
   }, [pathname, year, setSelectedMusic, isDefaultMusic]);
@@ -113,10 +110,11 @@ const Layout = ({ children }: { children: ReactNode }) => {
       case "autoPlay": {
         const videoEl = document.getElementById("autoPlay") as HTMLVideoElement;
         const currentTime = videoEl.currentTime;
+        // 一張照片播放4.5秒
         const currentPrize =
-          Math.ceil(currentTime / 4) > 0 ? Math.ceil(currentTime / 4) : 1;
+          Math.ceil(currentTime / 4.5) > 0 ? Math.ceil(currentTime / 4.5) : 1;
         const targetPrize = currentPrize - 1 > 0 ? currentPrize - 1 : 1;
-        const targetTime = (targetPrize - 1) * 4;
+        const targetTime = (targetPrize - 1) * 4.5;
         videoEl.currentTime = targetTime;
         break;
       }
@@ -148,10 +146,11 @@ const Layout = ({ children }: { children: ReactNode }) => {
       case "autoPlay": {
         const videoEl = document.getElementById("autoPlay") as HTMLVideoElement;
         const currentTime = videoEl.currentTime;
+        // 一張照片播放4.5秒
         const currentPrize =
-          Math.ceil(currentTime / 4) > 0 ? Math.ceil(currentTime / 4) : 1;
+          Math.ceil(currentTime / 4.5) > 0 ? Math.ceil(currentTime / 4.5) : 1;
         const targetPrize = currentPrize + 1 < 18 ? currentPrize + 1 : 18;
-        const targetTime = (targetPrize - 1) * 4;
+        const targetTime = (targetPrize - 1) * 4.5;
         videoEl.currentTime = targetTime;
         break;
       }
@@ -216,6 +215,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       {openMusicDialog && (
         <MusicDialog
           setOpenMusicDialog={setOpenMusicDialog}
+          //@ts-expect-error declare in global
           musicList={MusicList}
           selectedMusic={selectedMusic}
           setSelectedMusic={setSelectedMusic}
